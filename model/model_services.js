@@ -7,56 +7,72 @@ const getServices = (document) => {
 }
 
 const constructServices = () => {
-    return getData()
+    return getData() // Asumo que getData es una función asíncrona que devuelve una promesa con los datos.
         .then(data => {
             if (!data.error) {
+                const find_X_Y = (A) => {
+                    for (let X = 1; X < A; X++) {
+                        let Y = Math.floor((A - X) / 2);
+                        if ((Y * 2) + X === A && Y < X && X - Y <= 2) {
+                            return [X, Y];
+                        }
+                    }
+                    let Z = Math.floor(A / 3);
+                    return [Z, Z];
+                }
+
                 const services = data.data.services;
-                const maxItemSideColumns = Math.ceil(Object.keys(services).length / 4);
-                const maxItemCenterColumn = Math.ceil(Object.keys(services).length / 2);
+                const maxitemColumsArray = find_X_Y(Object.keys(services).length);
+                const maxItemSideColumns = maxitemColumsArray[1];
+                const maxItemCenterColumn = maxitemColumsArray[0];
 
                 let html = '';
+
+                // Construir la primera columna
                 html += `<div class="third-column vertical-container">
-                            <div class="solid complete-width border-rouded">`
-                for (let i = 0; i < maxItemSideColumns; i++) {
-                    const serviceName = Object.keys(services)[i];
-                    const service = services[serviceName];
-                    html += `
-                            <div class="option-box-static shadowed border-rouded choose-service-button"
-                                id="serv-${serviceName}">
-                                <h2>${serviceName}</h2>
-                                <img src="${service.img}" alt="${serviceName}">
-                            </div>`;
-                }
-                html += `
-                    </div>
-                </div>
-                <div class="third-column vertical-container">
-                    <div class="solid complete-width border-rouded">`;
-                for (let i = maxItemSideColumns; i < maxItemSideColumns + maxItemCenterColumn; i++) {
+                            <div class="solid complete-width border-rouded">`;
+                for (let i = 0; i < maxItemSideColumns; i++) { // Cambié <= por < aquí
                     const serviceName = Object.keys(services)[i];
                     const service = services[serviceName];
                     html += `
                         <div class="option-box-static shadowed border-rouded choose-service-button"
-                        id="serv-${serviceName}">
-                        <h2>${serviceName}</h2>
-                        <img src="${service.img}" alt="${serviceName}">
-                    </div>`
+                            id="serv-${serviceName}">
+                            <h2>${serviceName}</h2>
+                            <img src="${service.img}" alt="${serviceName}">
+                        </div>`;
                 }
-                html += `
-                    </div>
-                </div>
-                <div class="third-column vertical-container">
-                    <div class="solid complete-width border-rouded">`;
-                for (let i = maxItemSideColumns + maxItemCenterColumn; i < maxItemCenterColumn + maxItemCenterColumn; i++) {
+                html += `</div></div>`;
+
+                // Construir la segunda columna
+                html += `<div class="third-column vertical-container">
+                            <div class="solid complete-width border-rouded">`;
+                for (let i = maxItemSideColumns; i < maxItemSideColumns + maxItemCenterColumn; i++) { // Cambié <= por < aquí
                     const serviceName = Object.keys(services)[i];
                     const service = services[serviceName];
                     html += `
-                            <div class="option-box-static shadowed border-rouded choose-service-button"
-                                id="serv-${serviceName}">
-                                <h2>${serviceName}</h2>
-                                <img src="${service.img}" alt="${serviceName}">
-                            </div>`;
+                        <div class="option-box-static shadowed border-rouded choose-service-button"
+                            id="serv-${serviceName}">
+                            <h2>${serviceName}</h2>
+                            <img src="${service.img}" alt="${serviceName}">
+                        </div>`;
                 }
+                html += `</div></div>`;
+
+                // Construir la tercera columna
+                html += `<div class="third-column vertical-container">
+                            <div class="solid complete-width border-rouded">`;
+                for (let i = maxItemSideColumns + maxItemCenterColumn; i < Object.keys(services).length; i++) { // Cambié el límite del bucle
+                    const serviceName = Object.keys(services)[i];
+                    const service = services[serviceName];
+                    html += `
+                        <div class="option-box-static shadowed border-rouded choose-service-button"
+                            id="serv-${serviceName}">
+                            <h2>${serviceName}</h2>
+                            <img src="${service.img}" alt="${serviceName}">
+                        </div>`;
+                }
+                html += `</div></div>`;
+
                 console.log(html);
                 return html;
             } else {
@@ -68,6 +84,7 @@ const constructServices = () => {
             return '<h2>Error al obtener datos de servicios</h2>';
         });
 }
+
 
 
 
