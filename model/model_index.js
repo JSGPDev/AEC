@@ -16,7 +16,33 @@ const getIndex = (document) => {
 
                     document.querySelector("#nextToVideo").textContent = data.data.longText.nextToVideo;
                     document.querySelector("#whyUs").textContent = data.data.longText.whyUs;
+
                 });
+                const services = data.data.services;
+                const servicesNames = Object.keys(services);
+                const container = document.querySelector("#service-carousel");
+                let html = '';
+
+                servicesNames.forEach((service, index) => {
+                    // Utilizamos un operador ternario para determinar la clase a aplicar
+                    const classToShow = index === 0 ? 'unhide' : 'hide';
+
+                    html += `
+                    <div class="option-box ${classToShow}" id="serv-${service}">
+                        <h2>${service}</h2>
+                        <img src="${services[service].img}" alt="${service}">
+                    </div>`;
+                });
+
+                container.innerHTML = html;
+
+                document.querySelectorAll(".option-box").forEach(element => {
+                    element.addEventListener("click", () => {
+                        const url = `/view/services.html#show-service/${element.id}`;
+                        window.location.href = url;
+                    });
+                });
+
             } else {
                 console.error(data.message);
                 document.querySelector("#welcome-text").textContent = data.message;
@@ -27,5 +53,7 @@ const getIndex = (document) => {
             document.querySelector("#welcome-text").textContent = 'Error al obtener datos:' + error;
         });
 }
+
+
 
 export { getIndex }

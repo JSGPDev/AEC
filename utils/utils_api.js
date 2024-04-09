@@ -17,7 +17,7 @@ const readData = (url) => {
 }
 
 const getData = () => {
-    const url = '/temp.json';
+    const url = 'https://raw.githubusercontent.com/JSGPDev/AEC/main/temp.json';
 
     const getFromSessionStorage = () => {
         const storedData = sessionStorage.getItem('tempData');

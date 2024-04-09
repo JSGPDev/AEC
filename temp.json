@@ -2,63 +2,55 @@
     "longText": {
         "welcomeText": "Donde el cuidado encuentra tu hogar. ¡Bienvenido a un nuevo estándar de atención en salud!",
         "cardText": {
-            "Higiene": "texto de pueba para Higiene",
-            "Calidad": "texto de pueba para Calidad",
-            "Servicio": "texto de pueba para Servicio",
-            "Personal": "texto de pueba para Personal",
-            "Atencion": "texto de pueba para Atencion",
-            "Experiencia": "texto de pueba para Experiencia",
-            "Control": "texto de pueba para Control"
+            "Higiene": "texto de prueba para Higiene",
+            "Calidad": "texto de prueba para Calidad",
+            "Servicio": "texto de prueba para Servicio",
+            "Personal": "texto de prueba para Personal",
+            "Atencion": "texto de prueba para Atencion",
+            "Experiencia": "texto de prueba para Experiencia",
+            "Control": "texto de prueba para Control"
         },
         "nextToVideo": "¡Bienvenido a AEC! En nuestra misión de brindar atención de calidad y compasión a quienes más lo necesitan, nos complace presentarte nuestros servicios de enfermería a domicilio. Desde cuidados básicos hasta atención especializada, estamos aquí para cuidarte en la comodidad de tu hogar. ¡Descubre cómo nuestro equipo de enfermeras expertas puede proporcionarte el cuidado que te mereces! Relájate, estás en buenas manos con AEC.",
-        "whyUs": "¿Por qué elegirnos? Porque en cada visita, llevamos más que solo atención médica; llevamos compasión, profesionalismo y una dedicación sincera a tu bienestar. Nuestro equipo de enfermeras altamente capacitadas está aquí para brindarte un cuidado personalizado y de calidad, justo en la comodidad de tu hogar. Confía en nosotros para cuidarte a ti y a tus seres queridos en cada paso del camino. En AEC, tu salud y comodidad son nuestra prioridad número uno.",
-        "serviceFunctionsText": {
-            "Inyectologia": "texto de prueba para Inyectologia",
-            "Curaciones": "texto de prueba para Curaciones",
-            "Cuidado post quirurgico": "texto de prueba para Cuidado post quirurgico",
-            "Administracion de medicamentos": "texto de prueba para Administracion de medicamentos",
-            "Administracion y manejo de ostomias": "texto de prueba para Administracion y manejo de ostomias",
-            "Retiro de puntos ": "texto de prueba para Retiro de puntos",
-            "Toma de signos vitales": "texto de prueba para Toma de signos vitales",
-            "Citas medicas": "texto de prueba para Citas medicas",
-            "Acompanamiento en casa diurno y nocturno": "texto de prueba para Acompanamiento en casa diurno y nocturno",
-            "Procedimientos ambulatorios": "texto de prueba para Procedimientos ambulatorios",
-            "Acompanamiento en hospitalización": "texto de prueba para Acompanamiento en hospitalización",
-            "Terapia ocupacional": "texto de prueba para Terapia ocupacional",
-            "Terapia fisica": "texto de prueba para Terapia fisica",
-            "Terapia respiratoria": "texto de prueba para Terapia respiratoria",
-            "Terapia fonoaudiologia": "texto de prueba para Terapia fonoaudiologia",
-            "Visita medica": "texto de prueba para Visita medica",
-            "Lectura de examenes": "texto de prueba para Lectura de examenes",
-            "Formulacion de medicamentos": "texto de prueba para Formulacion de medicamentos"
-        }
+        "whyUs": "¿Por qué elegirnos? Porque en cada visita, llevamos más que solo atención médica; llevamos compasión, profesionalismo y una dedicación sincera a tu bienestar. Nuestro equipo de enfermeras altamente capacitadas está aquí para brindarte un cuidado personalizado y de calidad, justo en la comodidad de tu hogar. Confía en nosotros para cuidarte a ti y a tus seres queridos en cada paso del camino. En AEC, tu salud y comodidad son nuestra prioridad número uno."
     },
-    "serviceFunctions": {
-        "Enfermeria": [
-            "Inyectologia",
-            "Curaciones",
-            "Cuidado post quirurgico",
-            "Administracion de medicamentos",
-            "Administracion y manejo de ostomias",
-            "Retiro de puntos ",
-            "Toma de signos vitales"
-        ],
-        "Acompanamiento": [
-            "Citas medicas",
-            "Acompanamiento en casa diurno y nocturno",
-            "Procedimientos ambulatorios",
-            "Acompanamiento en hospitalización"
-        ],
-        "Rehabilitacion": [
-            "Terapia ocupacional",
-            "Terapia fisica",
-            "Terapia respiratoria",
-            "Terapia fonoaudiologia"
-        ],
-        "Medicina": [
-            "Visita medica",
-            "Lectura de examenes",
-            "Formulacion de medicamentos"
-        ]
+    "services": {
+        "Enfermeria": {
+            "img": "/view/img/enfermera.png",
+            "functions": {
+                "Inyectologia": "texto de prueba para Inyectologia",
+                "Curaciones": "texto de prueba para Curaciones",
+                "Cuidado post quirurgico": "texto de prueba para Cuidado post quirurgico",
+                "Administracion de medicamentos": "texto de prueba para Administracion de medicamentos",
+                "Administracion y manejo de ostomias": "texto de prueba para Administracion y manejo de ostomias",
+                "Retiro de puntos": "texto de prueba para Retiro de puntos",
+                "Toma de signos vitales": "texto de prueba para Toma de signos vitales"
+            }
+        },
+        "Acompanamiento": {
+            "img": "/view/img/asistente.png",
+            "functions": {
+                "Citas medicas": "texto de prueba para Citas medicas",
+                "Acompanamiento en casa diurno y nocturno": "texto de prueba para Acompanamiento en casa diurno y nocturno",
+                "Procedimientos ambulatorios": "texto de prueba para Procedimientos ambulatorios",
+                "Acompanamiento en hospitalización": "texto de prueba para Acompanamiento en hospitalización"
+            }
+        },
+        "Rehabilitacion": {
+            "img": "/view/img/fisioterapia.png",
+            "functions": {
+                "Terapia ocupacional": "texto de prueba para Terapia ocupacional",
+                "Terapia fisica": "texto de prueba para Terapia fisica",
+                "Terapia respiratoria": "texto de prueba para Terapia respiratoria",
+                "Terapia fonoaudiologia": "texto de prueba para Terapia fonoaudiologia"
+            }
+        },
+        "Medicina": {
+            "img": "/view/img/salud.png",
+            "functions": {
+                "Visita medica": "texto de prueba para Visita medica",
+                "Lectura de examenes": "texto de prueba para Lectura de examenes",
+                "Formulacion de medicamentos": "texto de prueba para Formulacion de medicamentos"
+            }
+        }
     }
 }

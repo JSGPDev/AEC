@@ -1,4 +1,4 @@
-import { getServices, constructShowServiceHTML } from "/model/model_services.js";
+import { getServices, constructServices, constructShowServiceHTML, constructExplainServFuncionHTML } from "/model/model_services.js";
 
 export default class ServicesController {
     constructor(document) {
@@ -7,11 +7,20 @@ export default class ServicesController {
 
         getServices(document);
 
-        document.querySelectorAll(".choose-service-button").forEach(button => {
-            button.addEventListener("click", () => {
-                this.chooseService(button.id)
+        constructServices()
+            .then(html => {
+                const field = document.querySelector("#show-services");
+                field.innerHTML = html;
+
+                document.querySelectorAll(".choose-service-button").forEach(button => {
+                    button.addEventListener("click", () => {
+                        this.chooseService(button.id)
+                    });
+                });
+            }).catch(error => {
+                console.error('Error al generar el HTML:', error);
             });
-        });
+
         window.addEventListener("hashchange", () => {
             this.checkHash();
         })
@@ -20,11 +29,9 @@ export default class ServicesController {
     chooseService = (serviceId) => {
         window.location.hash = 'show-service/' + serviceId;
 
-        const service = document.getElementById(serviceId);
-        const serviceTitleElement = service.querySelector('h2').textContent;
-        const serviceImgElement = service.querySelector('img').src;
+        const service = serviceId.substring(serviceId.indexOf('-') + 1);
 
-        constructShowServiceHTML(serviceTitleElement, serviceImgElement)
+        constructShowServiceHTML(service)
             .then(html => {
                 const field = document.getElementById('service-choosed');
 
@@ -34,7 +41,15 @@ export default class ServicesController {
 
                 document.querySelector("#explain-service-img").addEventListener("click", () => {
                     this.setExplainServiceView(false);
+                    constructExplainServFuncionHTML();
                 });
+
+                document.querySelectorAll(".card-function").forEach(button => {
+                    button.addEventListener("click", () => {
+                        constructExplainServFuncionHTML(button.id);
+                    });
+                });
+
             })
             .catch(error => {
                 console.error('Error al generar el HTML:', error);
@@ -49,6 +64,7 @@ export default class ServicesController {
         if (setHide) {
             explain_section.classList.remove('disable');
             show_section.classList.add('disable');
+
         } else {
             window.location.hash = '';
             explain_section.classList.add('disable');

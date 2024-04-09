@@ -1,4 +1,48 @@
-import { type, typeUnique } from "/utils/Util_typing.js";
+
+
+let istiping = false;
+
+const typeUnique = (elementId, text, typingSpeed) => {
+    let index = 0;
+    if (document.getElementById(elementId).innerHTML != text && !istiping) {
+
+        istiping = true;
+        document.getElementById(elementId).innerHTML = '';
+
+        function typeUniqueAnimation() {
+            if (index < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeUniqueAnimation, typingSpeed);
+            } else {
+                istiping = false;
+            }
+        }
+
+        typeUniqueAnimation();
+    }
+}
+
+const type = (elementId, text, typingSpeed, readTime, resetDelay) => {
+    let index = 0;
+    document.getElementById(elementId).innerHTML = '';
+
+    function typeAnimation() {
+        if (index < text.length) {
+            document.getElementById(elementId).innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeAnimation, typingSpeed);
+        } else {
+            setTimeout(() => {
+                document.getElementById(elementId).innerHTML = '';
+                index = 0;
+                setTimeout(typeAnimation, resetDelay);
+            }, readTime);
+        }
+    }
+
+    typeAnimation();
+}
 
 setTimeout(() => {
     type('welcome-text', document.querySelector("#welcome-text").textContent, 100, 5000, 1000);
@@ -10,6 +54,5 @@ setTimeout(() => {
         });
     });
 }, 1500);
-
 
 setInterval(ShowOptions, 5000);

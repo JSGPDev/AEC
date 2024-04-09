@@ -46,6 +46,10 @@ const insertHeader = (document) => {
                         window.location.hash = url;
                     });
                 });
+
+                document.querySelector("#header-image").addEventListener("click", () => {
+                    changeLocation("/index.html")
+                });
             })
             .catch(error => {
                 console.error('Error al cargar el archivo HTML:', error);
