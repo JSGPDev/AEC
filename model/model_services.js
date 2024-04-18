@@ -7,7 +7,7 @@ const getServices = (document) => {
 }
 
 const constructServices = () => {
-    return getData() // Asumo que getData es una función asíncrona que devuelve una promesa con los datos.
+    return getData()
         .then(data => {
             if (!data.error) {
                 const find_X_Y = (A) => {
@@ -31,7 +31,7 @@ const constructServices = () => {
                 // Construir la primera columna
                 html += `<div class="third-column vertical-container">
                             <div class="solid complete-width border-rouded">`;
-                for (let i = 0; i < maxItemSideColumns; i++) { // Cambié <= por < aquí
+                for (let i = 0; i < maxItemSideColumns; i++) {
                     const serviceName = Object.keys(services)[i];
                     const service = services[serviceName];
                     html += `
@@ -46,7 +46,7 @@ const constructServices = () => {
                 // Construir la segunda columna
                 html += `<div class="third-column vertical-container">
                             <div class="solid complete-width border-rouded">`;
-                for (let i = maxItemSideColumns; i < maxItemSideColumns + maxItemCenterColumn; i++) { // Cambié <= por < aquí
+                for (let i = maxItemSideColumns; i < maxItemSideColumns + maxItemCenterColumn; i++) {
                     const serviceName = Object.keys(services)[i];
                     const service = services[serviceName];
                     html += `
@@ -61,7 +61,7 @@ const constructServices = () => {
                 // Construir la tercera columna
                 html += `<div class="third-column vertical-container">
                             <div class="solid complete-width border-rouded">`;
-                for (let i = maxItemSideColumns + maxItemCenterColumn; i < Object.keys(services).length; i++) { // Cambié el límite del bucle
+                for (let i = maxItemSideColumns + maxItemCenterColumn; i < Object.keys(services).length; i++) {
                     const serviceName = Object.keys(services)[i];
                     const service = services[serviceName];
                     html += `
