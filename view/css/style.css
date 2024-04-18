@@ -306,7 +306,7 @@ header {
     z-index: 90;
 
     width: 200vw;
-    height: 200vw;
+    height: 600vw;
 
     top: 0;
     bottom: 0;
@@ -809,6 +809,15 @@ header {
     .explain-card {
         width: 40%;
         min-width: unset;
+    }
+
+    .third-column {
+        width: 33%;
+        min-width: 250px;
+    }
+
+    .sixth-column {
+        min-width: 250px;
     }
 }
 
