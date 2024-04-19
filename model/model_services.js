@@ -98,7 +98,7 @@ const constructShowServiceHTML = (service) => {
                 const serviceImgSrc = serviceFunctios[service].img ? data.data.services[service].img : "/view/img/error-404.png";
                 const serviceOptions = Object.keys(serviceFunctios[service].functions);
 
-                var html = '';
+                let html = '';
                 html += '<div class="solid complete-width border-rouded">';
                 html += '   <div class="option-box-static shadowed border-rouded" id="explain-service-img">';
                 html += '       <h2>' + serviceTitle + '</h2>';

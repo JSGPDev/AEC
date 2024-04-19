@@ -11,7 +11,7 @@ const chooseService = (serviceId) => {
     const serviceTitleElement = service.querySelector('h2').textContent;
     const serviceImgElement = service.querySelector('img').src;
 
-    var html = contructShowServiceHTML(serviceTitleElement, serviceImgElement)
+    let html = contructShowServiceHTML(serviceTitleElement, serviceImgElement)
 
     const field = document.getElementById('service-choosed');
 
@@ -34,7 +34,7 @@ const contructShowServiceHTML = (Title, ImgSrc) => {
     const serviceImgSrc = ImgSrc ? ImgSrc : "../global/img/error-404.png";
     const serviceOptions = serviceFunctios[serviceTitle];
 
-    var html = '';
+    let html = '';
     html += '<div class="solid complete-width border-rouded">';
     html += '   <div class="option-box-static shadowed border-rouded" onclick="setExplainServiceView(false)">';
     html += '       <h2>' + serviceTitle + '</h2>';
@@ -72,10 +72,10 @@ const setExplainServiceView = (setHide) => {
 }
 
 const checkHash = () => {
-    var url = window.location.href;
+    let url = window.location.href;
 
     if (url.indexOf('#') !== -1) {
-        var hash = url.substring(url.indexOf('#') + 1).substring(url.substring(url.indexOf('#') + 1).indexOf('/') + 1);
+        let hash = url.substring(url.indexOf('#') + 1).substring(url.substring(url.indexOf('#') + 1).indexOf('/') + 1);
         chooseService(hash);
     }
 }

@@ -1,11 +1,12 @@
 import IndexController from "./controller_index.js";
 import ServicesController from "./controller_services.js";
+import UsController from "./controller_us.js"
 // Importa otros controladores según sea necesario
 
 export const controllers = {
     "index.html": IndexController,
     "services.html": ServicesController,
-    // "us.html": UsController,
+    "us.html": UsController,
     // "testimonies.html": TestimoniesController
     // Agrega aquí otros controladores según sea necesario
 };
