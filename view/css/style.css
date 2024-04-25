@@ -501,6 +501,10 @@ header {
     box-shadow: 0px 0px 15px black;
 }
 
+.shadowed-in {
+    box-shadow: inset 0px 0px 15px black;
+}
+
 .color-solid {
     background-color: var(--color-alfa-primario);
     width: 80vw;
@@ -772,6 +776,10 @@ header {
     background-color: var(--color-cuaternario);
 }
 
+.card-title {
+    font-size: 100%;
+}
+
 .autotext {
     font-size: 100%;
     text-wrap: wrap;
@@ -882,7 +890,55 @@ form input[type="submit"]:hover {
     align-items: flex-start;
 }
 
-@media screen and (max-width : 300px) {
+#loading-screen {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
+    background-color: var(--color-primario);
+    z-index: 1000;
+}
+
+#loading-screen h1 {
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: white;
+}
+
+#loading-simbol {
+    height: 25vw;
+    width: 25vw;
+    margin-top: 5rem;
+    border: solid 15vh transparent;
+    border-top: solid 15vh white;
+    border-bottom: solid 15vh white;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width : 350px) {
 
     .box-double {
         position: relative;
@@ -923,7 +979,7 @@ form input[type="submit"]:hover {
     }
 
     #nextToVideo {
-        height: 100%;
+        /* height: 100%; */
         font-size: 70%;
     }
 

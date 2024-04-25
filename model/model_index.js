@@ -11,7 +11,6 @@ const getIndex = (document) => {
                 document.querySelector("#welcome-text").textContent = data.data.longText.welcomeText;
                 document.querySelectorAll('.explain-card').forEach(element => {
                     let title = element.querySelector(".card-title").textContent;
-                    console.log(title + "\n" + data.data.longText.cardText[title])
                     element.querySelector(".explain-card-text").textContent = data.data.longText.cardText[title];
 
                     document.querySelector("#nextToVideo").textContent = data.data.longText.nextToVideo;

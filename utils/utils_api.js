@@ -24,7 +24,6 @@ const getData = () => {
         const storedData = sessionStorage.getItem('tempData');
         if (storedData) {
             const parsedData = JSON.parse(storedData);
-            console.log('Datos cargados desde el sessionStorage:', parsedData.data);
             return parsedData;
         }
         return null;

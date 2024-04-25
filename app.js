@@ -5,6 +5,8 @@ import { controllers } from "/controller/controllers.js";
 const curDocument = pageTitlesToIds[pageTitlesToIds[document.title]];
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('loading-screen').style.display = 'none';
+
     const curDocument = pageTitlesToIds[pageTitlesToIds[document.title]];
     const Controller = controllers[curDocument];
 
