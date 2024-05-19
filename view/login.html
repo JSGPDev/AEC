@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="shortcut icon" href="./img/favicon.ico"
+            type="image/x-icon">
+        <title>AEC - Atencion En Casa - Iniciar sesion</title>
+    </head>
+    <body>
+        <section id="loading-screen">
+            <h1>Cargando...</h1>
+            <span id="loading-simbol"></span>
+        </section>
+        <section
+            class="window-size background-colored-secundary centered flex-column border-rouded">
+            <form class="mid-width" id="login-form">
+                <div class="input-vertical-container">
+                    <label for="user">Usuario - Email</label>
+                    <input type="email" name="user"
+                        placeholder="alguien@algo.com" required>
+                    <label for="password">contraseña</label>
+                    <input type="password" name="password"
+                        placeholder="********" required>
+                </div>
+                <div class="buttons-horizontal-container">
+                    <button type="submit">Iniciar sesion</button>
+                    <button type="reset">Resetear</button>
+                </div>
+            </form>
+        </section>
+        <script type="module" src="/app.js"></script>
+    </body>
+</html>

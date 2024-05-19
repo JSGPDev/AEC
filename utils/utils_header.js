@@ -3,11 +3,15 @@ const pageTitlesToIds = {
     "AEC - Atencion En Casa - Servicios": "servicios",
     "AEC - Atencion En Casa - Nosotros": "nosotros",
     "AEC - Atencion En Casa - Testimonios": "testimonios",
+    "AEC - Atencion En Casa - Iniciar sesion": "sesion",
+    "AEC - Atencion En Casa - Administrar contenido": "admin",
 
     "inicio": "index.html",
     "servicios": "services.html",
     "nosotros": "us.html",
-    "testimonios": "testimonies.html"
+    "testimonios": "testimonies.html",
+    "sesion": "login.html",
+    "admin": "admin.html"
 };
 
 const insertHeader = (document) => {

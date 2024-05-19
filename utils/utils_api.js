@@ -50,5 +50,28 @@ const getData = () => {
     });
 };
 
+const login = (form) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const formData = new FormData(form);
+            const user = formData.get('user');
+            const password = formData.get('password');
 
-export { getData }
+            const response = await fetch("http://localhost:8080/session/log-in", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ user, password })
+            });
+
+            resolve(response);
+
+        } catch (error) {
+            console.error(error);
+            reject(error);
+        }
+    });
+};
+
+export { getData, login }

@@ -1,3 +1,70 @@
+/* Estilos CSS */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#side-bar {
+    background-color: #333;
+    color: #fff;
+    width: 80px;
+    /* Ancho inicial */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: width 0.3s;
+    /* Transición suave */
+}
+
+#side-bar.expanded {
+    width: 250px;
+    /* Ancho expandido */
+}
+
+.container {
+    width: 100%;
+}
+
+.logo-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.logo-container img {
+    width: 40px;
+    /* Tamaño del logo en la barra expandida */
+    height: auto;
+}
+
+.option-container {
+    padding: 20px;
+    display: none;
+    /* Ocultar opciones inicialmente */
+}
+
+.option-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.option-container ul li {
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.option-container ul li:hover {
+    background-color: #555;
+}
+
+#side-bar.expanded .option-container {
+    display: block;
+    /* Mostrar opciones cuando expandido */
+}
+
 :root {
     --color-primario: #282629;
     --color-secundario: #4ea6a6;
@@ -532,13 +599,28 @@ header {
     justify-content: space-around;
 }
 
-.disable {
-    display: none;
-}
-
 .window-size {
     width: 95vw;
     height: 95vh;
+}
+
+.background-colored-secundary {
+    background-color: var(--color-secundario);
+}
+
+.centered {
+    margin: 1rem auto;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+
+    overflow-y: auto;
 }
 
 .opaque-container {
@@ -633,6 +715,109 @@ header {
     cursor: pointer;
 }
 
+.input-vertical-container {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: auto auto 5px;
+    width: 50%;
+    text-align: center;
+    background-color: var(--color-secundario);
+    border-radius: 15px;
+
+    font-weight: bolder;
+    color: var(--color-cuaternario);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttons-horizontal-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons-horizontal-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-form {
+    margin: 1rem auto;
+    width: 50%;
+    min-width: 250px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-around;
+    align-items: center;
+}
+
+.admin-form label {
+    width: 35%;
+    min-width: 150px;
+    margin: auto auto 1rem;
+}
+
+.admin-form textarea {
+    width: 60%;
+    margin: auto;
+    height: 150px;
+    overflow: auto;
+    resize: none;
+}
+
+.admin-form select,
+.admin-form .mini-input {
+    margin: 1rem auto;
+    height: 20px;
+    max-width: 40%;
+    background-color: var(--color-secundario);
+    color: var(--color-quinario);
+
+    border-radius: 10px;
+}
+
+.admin-form .buttons-horizontal-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+
+    margin: 1rem auto auto;
+}
+
+.buttons-horizontal-container button[type="submit"] {
+    background-color: #4CAF50;
+    /* Green */
+    color: white;
+}
+
+.buttons-horizontal-container button[type="reset"] {
+    background-color: #f4c836;
+    /* orange */
+    color: white;
+}
+
+.buttons-horizontal-container button[type="button"] {
+    background-color: #da2316;
+    /* Red */
+    color: white;
+}
+
+.buttons-horizontal-container button:hover {
+    opacity: 0.8;
+}
+
 .hide {
     opacity: 0;
     z-index: -1;
@@ -698,6 +883,10 @@ header {
 
     justify-content: center;
     align-items: center;
+}
+
+.mid-width {
+    width: 50%;
 }
 
 .sixth-column {
@@ -869,6 +1058,10 @@ form input[type="submit"] {
 
 form input[type="submit"]:hover {
     background-color: #45a049;
+}
+
+.disable {
+    display: none;
 }
 
 #contact-info-field {

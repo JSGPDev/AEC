@@ -85,9 +85,6 @@ const constructServices = () => {
         });
 }
 
-
-
-
 const constructShowServiceHTML = (service) => {
     return getData()
         .then(data => {
