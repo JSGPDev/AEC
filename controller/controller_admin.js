@@ -3,7 +3,7 @@ import { getAdmin, insertform } from "../model/model_admin.js";
 export default class AdminController {
 
     constructor() {
-        getAdmin();
+        getAdmin(document);
         this.checkSession();
         const sideBar = document.querySelector("#side-bar");
 

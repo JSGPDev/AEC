@@ -8,10 +8,22 @@ const getIndex = (document) => {
         .then(data => {
             if (!data.error) {
                 insertHeader(document);
-                document.querySelector("#welcome-text").textContent = data.data.longText.welcomeText;
+                document.querySelector("#welcome-text").innerHTML = data.data.longText.welcomeText;
+
+                document.querySelector('#card-container').innerHTML = '';
+                let card_container = '';
+                for (let key in data.data.cards) {
+                    card_container += `
+                        <div class="explain-card box-double tinny-box card">
+                            <p class="card-title">${key}</p>
+                            <p class="explain-card-text disable">${data.data.cards[key].text}</p>
+                            <img src="${data.data.cards[key].img}" alt="imagen representativa de ${key}">
+                        </div>
+                    `
+                }
+                document.querySelector('#card-container').innerHTML = card_container;
+
                 document.querySelectorAll('.explain-card').forEach(element => {
-                    let title = element.querySelector(".card-title").textContent;
-                    element.querySelector(".explain-card-text").textContent = data.data.longText.cardText[title];
 
                     document.querySelector("#nextToVideo").textContent = data.data.longText.nextToVideo;
                     document.querySelector("#whyUs").textContent = data.data.longText.whyUs;
@@ -29,7 +41,7 @@ const getIndex = (document) => {
                     html += `
                     <div class="option-box ${classToShow}" id="serv-${service}">
                         <h2>${service}</h2>
-                        <img src="${services[service].img}" alt="${service}">
+                        <img class="option-box-index-img" src="${services[service].img}" alt="${service}">
                     </div>`;
                 });
 

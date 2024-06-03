@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="/view/css/style.css">
         <link rel="shortcut icon" href="/view/img/favicon.ico"
             type="image/x-icon">
+        <!-- Incluir Chart.js desde una CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>AEC - Atencion En Casa - Administrar contenido</title>
     </head>
     <body style="background-color: #333;">
@@ -19,11 +21,13 @@
             </div>
             <div class="option-container">
                 <ul>
-                    <li class="option" id="indexForms">Inicio</li>
-                    <li class="option" id="servicesForms">Servicios</li>
-                    <li class="option" id="usForms">Nosotros</li>
+                    <li class="option" id="stats">Estadisticas</li>
+                    <li class="option" id="indexForm">Inicio</li>
+                    <li class="option" id="servicesForm">Servicios</li>
+                    <li class="option" id="usForm">Nosotros</li>
                     <li class="option" id="testimoniesForm">Testimonios</li>
                     <li class="option" id="contactForm">Contacto</li>
+                    <li class="option" id="closeSession">Cerrar sesion</li>
                 </ul>
             </div>
         </section>
@@ -31,7 +35,6 @@
         <section
             class="window-size background-colored-secundary centered flex-column border-rouded"
             id="render-field">
-
         </section>
         <script type="module" src="/app.js"></script>
         <script>

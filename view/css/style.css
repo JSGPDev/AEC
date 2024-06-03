@@ -112,6 +112,7 @@ li {
 button {
     min-width: 25%;
     width: max-content;
+    max-width: 90%;
     height: 30px;
 
     margin: auto;
@@ -524,7 +525,7 @@ header {
 }
 
 .card img {
-    height: 80%;
+    height: 70%;
     width: auto;
 }
 
@@ -695,7 +696,7 @@ header {
 }
 
 .option-box-static {
-    width: 80%;
+    width: 90%;
     height: 250px;
 
     margin: 2rem auto;
@@ -777,13 +778,22 @@ input {
     resize: none;
 }
 
-.admin-form select,
-.admin-form .mini-input {
+.admin-form select {
     margin: 1rem auto;
     height: 20px;
     max-width: 40%;
     background-color: var(--color-secundario);
     color: var(--color-quinario);
+
+    border-radius: 10px;
+}
+
+.admin-form .mini-input {
+    margin: 1rem auto;
+    height: 30px;
+    width: 30%;
+    max-width: 40%;
+    color: #000;
 
     border-radius: 10px;
 }
@@ -808,7 +818,7 @@ input {
     color: white;
 }
 
-.buttons-horizontal-container button[type="button"] {
+.buttons-horizontal-container #delete-button {
     background-color: #da2316;
     /* Red */
     color: white;
@@ -831,19 +841,24 @@ input {
 .option-box h2,
 .option-box-static h2 {
     width: auto;
-    font-size: 150%;
+    font-size: auto;
     border-bottom: black solid 3px;
-    margin: 0 auto auto;
-
+    margin: 10px auto;
     text-wrap: wrap;
+    text-align: center;
 }
 
-.option-box img,
-.option-box-static img {
+.option-box img {
     width: 50%;
     height: auto;
-    margin: 0 auto auto;
+    margin: auto auto;
+}
 
+.option-box-static img {
+    width: 50%;
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto auto;
 }
 
 .option-box-static:hover {
@@ -1083,6 +1098,11 @@ form input[type="submit"]:hover {
     align-items: flex-start;
 }
 
+.b-list {
+    width: 90%;
+    margin: 5px auto
+}
+
 #loading-screen {
     position: fixed;
     width: 100vw;
@@ -1119,6 +1139,27 @@ form input[type="submit"]:hover {
     border-bottom: solid 15vh white;
     border-radius: 50%;
     animation: spin 2s linear infinite;
+}
+
+#prev-img {
+    cursor: pointer;
+    width: 150px;
+    /* Ajusta el tamaño según sea necesario */
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin: 20px auto;
+}
+
+#card-Img {
+    display: none;
+    /* Oculta el input file */
+}
+
+#service-services {
+    background-color: var(--color-secundario);
+    border-radius: 15px;
+    box-shadow: inset #0000007e 0px 0px 15px;
 }
 
 @keyframes spin {
