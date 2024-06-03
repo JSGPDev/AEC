@@ -1,5 +1,6 @@
 import { getData } from "../utils/utils_api.js";
 import { insertHeader } from "../utils/utils_header.js";
+import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
 
 const getTestimonies = (document) => {
     insertHeader(document);
@@ -7,19 +8,19 @@ const getTestimonies = (document) => {
 
     getData()
         .then(data => {
-            const testimonies = data.data.testimonies;
-            for (const key in testimonies) {
-                if (testimonies.hasOwnProperty(key)) {
-                    const testimonie = testimonies[key];
-                    container.insertAdjacentHTML('afterbegin', contructHtml(testimonie, key % 2 == 0 ? 1 : 2));
-                }
-            }
+            const testimoniesObj = data.data.testimonies;
+            const testimonies = Object.values(testimoniesObj); // Convertir el objeto en un array
+            const testimoniesToShow = testimonies.slice(-10); // Seleccionar los últimos diez testimonios
+            testimoniesToShow.forEach((testimonie, index) => {
+                container.insertAdjacentHTML('afterbegin', contructHtml(testimonie, index % 2 === 0 ? 1 : 2));
+            });
             document.querySelectorAll(".a-service").forEach(element => {
                 element.addEventListener("click", () => {
                     const url = `/view/services.html#show-service/${element.id}`;
                     window.location.href = url;
                 });
             });
+            changeBackgroundUrl(data.data.backgrounds, 'bg004');
         })
         .catch(error => {
             console.error('Error al obtener datos:', error);
@@ -28,7 +29,7 @@ const getTestimonies = (document) => {
 }
 
 const contructHtml = (testimonie, poss) => {
-    const html = poss == 1 ? `
+    const html = poss === 1 ? `
         <div class="row opaque-alfa-container shadowed-in">
             <iframe width="560" height="315"
                 src="${testimonie.videoLink}"
@@ -51,7 +52,7 @@ const contructHtml = (testimonie, poss) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
-    `
+    `;
     return html;
 }
 

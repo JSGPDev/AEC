@@ -1,6 +1,8 @@
 import { getData } from "../utils/utils_api.js";
 import { insertHeader } from "../utils/utils_header.js";
 
+import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
+
 const getUs = (document) => {
     insertHeader(document);
 
@@ -23,6 +25,7 @@ const getUs = (document) => {
             idToText.forEach(id => {
                 document.querySelector(`#${id}`).innerHTML = data.data.longText[id] || data.data.contact[id] || '';
             });
+            changeBackgroundUrl(data.data.backgrounds, 'bg003')
         })
         .catch(error => {
             console.error('Error al obtener datos:', error);

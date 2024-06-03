@@ -159,6 +159,13 @@ p {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/Bg004.jpg");
 }
 
+#prev-bacground-img {
+    width: 80%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 .background-container {
     height: 100vh;
     width: 100vw;

@@ -1,6 +1,8 @@
 import { getData } from "/utils/utils_api.js";
 
 import { insertHeader } from "/utils/utils_header.js";
+import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
+
 
 const getServices = (document) => {
     insertHeader(document);
@@ -75,6 +77,8 @@ const constructServices = () => {
 
                 console.log(html);
                 return html;
+
+                changeBackgroundUrl(data.data.backgrounds, 'bg002');
             } else {
                 throw new Error('Error al obtener datos de servicios');
             }

@@ -1,5 +1,6 @@
 import { insertHeader } from "/utils/utils_header.js";
 import { getData } from "/utils/utils_api.js";
+import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
 
 
 const getIndex = (document) => {
@@ -45,6 +46,7 @@ const getIndex = (document) => {
                     </div>`;
                 });
 
+
                 container.innerHTML = html;
 
                 document.querySelectorAll(".option-box").forEach(element => {
@@ -53,7 +55,9 @@ const getIndex = (document) => {
                         window.location.href = url;
                     });
                 });
+                document.querySelector('.videoY').src = data.data.longText.nextToVideoLink;
 
+                changeBackgroundUrl(data.data.backgrounds, 'bg001');
             } else {
                 console.error(data.message);
                 document.querySelector("#welcome-text").textContent = data.message;

@@ -6,13 +6,13 @@ const getAdmin = (document) => {
     getData().then(data => {
         forms.stats = () => stats();
 
-        forms.indexForm = () => indexForm(data.data.longText, data.data.cards);
+        forms.indexForm = () => indexForm(data.data.longText, data.data.cards, data.data.backgrounds);
 
-        forms.servicesForm = () => servicesForm(data.data.services);
+        forms.servicesForm = () => servicesForm(data.data.services, data.data.backgrounds);
 
-        forms.usForm = () => usForm(data.data.longText);
+        forms.usForm = () => usForm(data.data.longText, data.data.backgrounds);
 
-        forms.testimoniesForm = () => testimoniesForm(data.data.testimonies, data.data.services);
+        forms.testimoniesForm = () => testimoniesForm(data.data.testimonies, data.data.services, data.data.backgrounds);
 
         forms.contactForm = () => contactForm(data.data.contact);
 
@@ -99,7 +99,7 @@ const htmlUpdate = (html) => {
     field.innerHTML = html;
 }
 
-const indexForm = (longText, cards) => {
+const indexForm = (longText, cards, backgrounds) => {
     let cardOptions = '';
 
     for (let key in cards) {
@@ -107,14 +107,28 @@ const indexForm = (longText, cards) => {
             <option value="${cards[key].text}">${key}</option>
             `;
     }
+
+    const obtenerEnlacePublico = (enlaceDeInsercion) => {
+        // Extraer el ID del video del enlace de inserción
+        const url = new URL(enlaceDeInsercion);
+        const videoId = url.pathname.split("/").pop();
+
+        // Construir el enlace público
+        if (videoId) {
+            return `https://www.youtube.com/watch?v=${videoId}`;
+        } else {
+            throw new Error("Enlace de inserción no válido");
+        }
+    }
+
     const html = `
         <div class="container">
             <form class="admin-form update-index-form"
-            id="index-welcome-text">
+            id="change-background">
             <label for="bacground-Img">Imagen de fondo</label>
                 <div class="row disable">
                     <input type="file" name="bacground-Img" id="bacground-Img" class="disable" accept="image/*">
-                    <img id="prev-bacground-img" src="/view/img/enfermera.png" alt="Haz clic para subir una imagen">
+                    <img id="prev-bacground-img" src="${backgrounds.bg001}" alt="Haz clic para subir una imagen">
                     <div class="buttons-horizontal-container">
                         <button type="submit">Actualizar</button>
                         <button type="reset">Resetear</button>
@@ -132,6 +146,7 @@ const indexForm = (longText, cards) => {
                         <button type="reset">Resetear</button>
                     </div>
                 </div>
+
             </form>
 
             <form class="admin-form update-index-form"
@@ -143,6 +158,31 @@ const indexForm = (longText, cards) => {
                         placeholder="${longText.nextToVideo}"></textarea>
                     <div class="buttons-horizontal-container">
                         <button type="submit">Actualizar</button>
+                        <button type="reset">Resetear</button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="admin-form update-index-form" id="index-Video">
+                <label for="video-Link">Video</label>
+                <div class="row disable">
+                    <div class="column-flow">
+                        <input class="mini-input" type="text"
+                        name="video-Link"
+                        id="video-Link"
+                        placeholder="link del video"
+                        value="${obtenerEnlacePublico(longText.nextToVideoLink)}">
+                        
+                        <iframe width="560" height="315"
+                        src="${longText.nextToVideoLink}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        id="video-frame"
+                        ></iframe>
+                    </div>
+                    <div class="buttons-horizontal-container">
+                        <button type="submit" id="update-button">Actualizar</button>
                         <button type="reset">Resetear</button>
                     </div>
                 </div>
@@ -205,6 +245,49 @@ const indexForm = (longText, cards) => {
     `
 
     htmlUpdate(html);
+
+    document.getElementById('video-Link').addEventListener('change', function () {
+        const frame = document.getElementById('video-frame');
+        if (this.value !== "") {
+            frame.src = obtenerEnlaceDeInsercion(this.value);
+            frame.classList.remove("disable");
+        }
+    })
+
+    document.getElementById('index-Video').addEventListener('change', () => {
+        document.getElementById('video-Link').value = obtenerEnlaceDeInsercion(document.getElementById('video-Link').value);
+        update_text('video-Link', 'longText.nextToVideoLink')
+    })
+
+    document.getElementById('change-background').addEventListener('submit', async (e) => {
+
+        const imgField = document.querySelector('#bacground-Img');
+        const session = sessionStorage.getItem('sessionId');
+
+        if (!session) {
+            console.error('No hay sesión iniciada.');
+            return;
+        }
+
+        const formData = new FormData();
+
+        const backgroundField = 'bg001' // Nuevo campo para especificar qué background cambiar
+        const prevBackgroundImg = document.getElementById('prev-bacground-img').src;
+
+        formData.append("session", session);
+        formData.append("nombreArchivo", "data");
+        formData.append("campo", `backgrounds.${backgroundField}`);
+        formData.append("valor", JSON.stringify({ [backgroundField]: prevBackgroundImg }));
+
+        if (imgField.files.length > 0) {
+            formData.append("imagen", imgField.files[0]);
+        } else {
+            console.error('No se seleccionó ningún archivo de imagen.');
+            return;
+        }
+
+        updateFormData('archivo/modificar-imagen', formData);
+    });
 
     document.getElementById('prev-bacground-img').addEventListener('click', function () {
         document.getElementById('bacground-Img').click();
@@ -293,7 +376,6 @@ const indexForm = (longText, cards) => {
                 break;
         }
     })
-
 
     document.querySelector('#index-welcome-text').addEventListener('submit', (e) => {
         update_text('welcome-text-update', 'longText.welcomeText')
@@ -396,9 +478,24 @@ const indexForm = (longText, cards) => {
         updateFormData('archivo/modificar-card-imagen', formData);
 
     };
+
+
+    const obtenerEnlaceDeInsercion = (enlacePublico) => {
+        // Extraer el ID del video
+        const url = new URL(enlacePublico);
+        const videoId = url.searchParams.get("v");
+
+        // Construir el enlace de inserción
+        if (videoId) {
+            return `https://www.youtube.com/embed/${videoId}`;
+        } else {
+            throw new Error("Enlace público no válido");
+        }
+    }
+
 }
 
-const servicesForm = (services) => {
+const servicesForm = (services, backgrounds) => {
     let servicesOptions = '';
     for (let key in services) {
         servicesOptions += `
@@ -408,11 +505,11 @@ const servicesForm = (services) => {
     const html = `
     <div class="container">
         <form class="admin-form update-index-form"
-        id="index-welcome-text">
+        id="change-background">
         <label for="bacground-Img">Imagen de fondo</label>
             <div class="row disable">
                 <input type="file" name="bacground-Img" id="bacground-Img" class="disable" accept="image/*">
-                <img id="prev-bacground-img" src="/view/img/enfermera.png" alt="Haz clic para subir una imagen">
+                <img id="prev-bacground-img" src="${backgrounds.bg002}" alt="Haz clic para subir una imagen">
                 <div class="buttons-horizontal-container">
                     <button type="submit">Actualizar</button>
                     <button type="reset">Resetear</button>
@@ -468,6 +565,36 @@ const servicesForm = (services) => {
     </div>
 `
     htmlUpdate(html);
+
+    document.getElementById('change-background').addEventListener('submit', async (e) => {
+
+        const imgField = document.querySelector('#bacground-Img');
+        const session = sessionStorage.getItem('sessionId');
+
+        if (!session) {
+            console.error('No hay sesión iniciada.');
+            return;
+        }
+
+        const formData = new FormData();
+
+        const backgroundField = 'bg002' // Nuevo campo para especificar qué background cambiar
+        const prevBackgroundImg = document.getElementById('prev-bacground-img').src;
+
+        formData.append("session", session);
+        formData.append("nombreArchivo", "data");
+        formData.append("campo", `backgrounds.${backgroundField}`);
+        formData.append("valor", JSON.stringify({ [backgroundField]: prevBackgroundImg }));
+
+        if (imgField.files.length > 0) {
+            formData.append("imagen", imgField.files[0]);
+        } else {
+            console.error('No se seleccionó ningún archivo de imagen.');
+            return;
+        }
+
+        updateFormData('archivo/modificar-imagen', formData);
+    });
 
     document.getElementById('prev-bacground-img').addEventListener('click', function () {
         document.getElementById('bacground-Img').click();
@@ -656,15 +783,15 @@ const servicesForm = (services) => {
     };
 }
 
-const usForm = (us) => {
+const usForm = (us, backgrounds) => {
     const html = `
     <div class="container">
         <form class="admin-form update-index-form"
-        id="index-welcome-text">
+        id="change-background">
         <label for="bacground-Img">Imagen de fondo</label>
             <div class="row disable">
                 <input type="file" name="bacground-Img" id="bacground-Img" class="disable" accept="image/*">
-                <img id="prev-bacground-img" src="/view/img/enfermera.png" alt="Haz clic para subir una imagen">
+                <img id="prev-bacground-img" src="${backgrounds.bg003}" alt="Haz clic para subir una imagen">
                 <div class="buttons-horizontal-container">
                     <button type="submit">Actualizar</button>
                     <button type="reset">Resetear</button>
@@ -775,6 +902,36 @@ const usForm = (us) => {
 `
     htmlUpdate(html);
 
+    document.getElementById('change-background').addEventListener('submit', async (e) => {
+
+        const imgField = document.querySelector('#bacground-Img');
+        const session = sessionStorage.getItem('sessionId');
+
+        if (!session) {
+            console.error('No hay sesión iniciada.');
+            return;
+        }
+
+        const formData = new FormData();
+
+        const backgroundField = 'bg003' // Nuevo campo para especificar qué background cambiar
+        const prevBackgroundImg = document.getElementById('prev-bacground-img').src;
+
+        formData.append("session", session);
+        formData.append("nombreArchivo", "data");
+        formData.append("campo", `backgrounds.${backgroundField}`);
+        formData.append("valor", JSON.stringify({ [backgroundField]: prevBackgroundImg }));
+
+        if (imgField.files.length > 0) {
+            formData.append("imagen", imgField.files[0]);
+        } else {
+            console.error('No se seleccionó ningún archivo de imagen.');
+            return;
+        }
+
+        updateFormData('archivo/modificar-imagen', formData);
+    });
+
     document.getElementById('prev-bacground-img').addEventListener('click', function () {
         document.getElementById('bacground-Img').click();
     });
@@ -820,7 +977,7 @@ const usForm = (us) => {
     }
 }
 
-const testimoniesForm = (testimonies, services) => {
+const testimoniesForm = (testimonies, services, backgrounds) => {
     let testimoniesOptions = '';
     let testimoniesPilars = '';
     for (let key in testimonies) {
@@ -838,11 +995,11 @@ const testimoniesForm = (testimonies, services) => {
     const html = `
         <div class="container">
             <form class="admin-form update-index-form"
-            id="index-welcome-text">
+            id="change-background">
             <label for="bacground-Img">Imagen de fondo</label>
                 <div class="row disable">
                     <input type="file" name="bacground-Img" id="bacground-Img" class="disable" accept="image/*">
-                    <img id="prev-bacground-img" src="/view/img/enfermera.png" alt="Haz clic para subir una imagen">
+                    <img id="prev-bacground-img" src="${backgrounds.bg004}" alt="Haz clic para subir una imagen">
                     <div class="buttons-horizontal-container">
                         <button type="submit">Actualizar</button>
                         <button type="reset">Resetear</button>
@@ -920,6 +1077,36 @@ const testimoniesForm = (testimonies, services) => {
         </div>
     `
     htmlUpdate(html);
+
+    document.getElementById('change-background').addEventListener('submit', async (e) => {
+
+        const imgField = document.querySelector('#bacground-Img');
+        const session = sessionStorage.getItem('sessionId');
+
+        if (!session) {
+            console.error('No hay sesión iniciada.');
+            return;
+        }
+
+        const formData = new FormData();
+
+        const backgroundField = 'bg004' // Nuevo campo para especificar qué background cambiar
+        const prevBackgroundImg = document.getElementById('prev-bacground-img').src;
+
+        formData.append("session", session);
+        formData.append("nombreArchivo", "data");
+        formData.append("campo", `backgrounds.${backgroundField}`);
+        formData.append("valor", JSON.stringify({ [backgroundField]: prevBackgroundImg }));
+
+        if (imgField.files.length > 0) {
+            formData.append("imagen", imgField.files[0]);
+        } else {
+            console.error('No se seleccionó ningún archivo de imagen.');
+            return;
+        }
+
+        updateFormData('archivo/modificar-imagen', formData);
+    });
 
     document.getElementById('prev-bacground-img').addEventListener('click', function () {
         document.getElementById('bacground-Img').click();
