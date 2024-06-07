@@ -1,3 +1,5 @@
+const api_host = 'http://localhost:8080';
+
 const readData = (url) => {
     return new Promise((resolve, reject) => {
         fetch(url)
@@ -17,8 +19,7 @@ const readData = (url) => {
 }
 
 const getData = () => {
-    // const url = 'https://raw.githubusercontent.com/JSGPDev/AEC/main/temp.json';
-    const url = 'http://localhost:8080/archivo/ver-contenido/data';
+    const url = `${api_host}/archivo/ver-contenido/data`;
 
     const getFromSessionStorage = () => {
         const storedData = sessionStorage.getItem('tempData');
@@ -46,6 +47,44 @@ const getData = () => {
                     reject(newData);
                 });
         }
+    });
+};
+
+const getStats = () => {
+    const url = `${api_host}/archivo/ver-contenido/stats`;
+
+    return new Promise((resolve, reject) => {
+
+        readData(url)
+            .then(data => {
+                const newData = { error: false, data };
+                resolve(newData);
+            })
+            .catch(error => {
+                const newData = { error: true, message: 'Error al cargar el archivo JSON: ' + error };
+                console.error('Error al cargar el archivo JSON:', error);
+                reject(newData);
+            });
+
+    });
+};
+
+const getAny = (endpoint) => {
+    const url = `${api_host}/${endpoint}`;
+
+    return new Promise((resolve, reject) => {
+
+        readData(url)
+            .then(data => {
+                const newData = { error: false, data };
+                resolve(newData);
+            })
+            .catch(error => {
+                const newData = { error: true, message: 'Error al cargar el archivo JSON: ' + error };
+                console.error('Error al cargar el archivo JSON:', error);
+                reject(newData);
+            });
+
     });
 };
 
@@ -125,4 +164,4 @@ const updateFormData = (endpoint, formData) => {
         });
 }
 
-export { getData, login, update, updateFormData }
+export { getData, getStats, getAny, login, update, updateFormData }

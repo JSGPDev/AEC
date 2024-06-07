@@ -1169,6 +1169,115 @@ form input[type="submit"]:hover {
     box-shadow: inset #0000007e 0px 0px 15px;
 }
 
+.stats {
+    width: 96%;
+    height: 95%;
+    margin: auto 15px auto auto;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+}
+
+.stats #grafics {
+    width: 70%;
+    height: 100%;
+    margin: auto 0px auto auto;
+    background-color: var(--color-alfa-quinario);
+    border-radius: 15px;
+
+    display: flex;
+
+    flex-direction: row;
+
+    flex-wrap: wrap;
+
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    align-items: center;
+}
+
+.stats #whatsapp-info {
+    width: 30%;
+    height: 100%;
+    margin: auto auto auto 0px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    align-items: center;
+}
+
+.stats #whatsapp-info #whatsapp_img {
+    width: 50%;
+    min-width: 150px;
+
+    margin: auto;
+}
+
+.stats #whatsapp-info #whatsapp_img img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: #0000007e 0px 0px 15px;
+}
+
+.stats #whatsapp-info #close_whatsapp {
+    width: 60%;
+    height: 50px;
+    border-radius: 15px;
+    box-shadow: inset #0000007e 0px 0px 15px;
+    margin: auto;
+
+    justify-content: center;
+    align-content: center;
+
+    background-color: var(--color-alfa-terciario);
+    border: solid var(--color-terciario) 2px;
+    border-radius: 15px;
+    text-align: center;
+
+    cursor: pointer;
+}
+
+.stats #whatsapp-info #close_whatsapp:hover {
+    border-radius: 20px;
+    box-shadow: #0000007e 0px 0px 15px;
+    background-color: var(--color-terciario);
+    border: solid var(--color-primario) 2px;
+
+}
+
+.stats .big-table {
+    width: 95%;
+    height: auto;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+.stats .mid-table {
+    width: 45%;
+    min-width: 200px;
+    height: auto;
+    margin: auto;
+    max-height: 500px;
+}
+
+.stats .mini-table {
+    width: 30%;
+    height: auto;
+    margin: auto;
+    max-height: 300px;
+}
+
+.stats canvas {
+    margin: auto;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

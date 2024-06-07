@@ -1,4 +1,4 @@
-import { getData, update, updateFormData } from "../utils/utils_api.js";
+import { getData, getStats, getAny, update, updateFormData } from "../utils/utils_api.js";
 import { convertirMarkdownAHTML } from "../utils/text_handler.js";
 let forms = {}
 
@@ -44,48 +44,309 @@ const closeSession = () => {
     window.location.href = '/';
 }
 
-const stats = () => {
-    const html = `
-        <canvas id="myChart" width="400" height="200"></canvas>
-    `
-    htmlUpdate(html);
-    // Obtener el contexto del canvas
-    const ctx = document.getElementById('myChart').getContext('2d');
+const stats = async () => {
+    const checkWathsapp = async () => {
+        if (document.getElementById('whatsapp-info')) {
+            console.log('checking whatsapp');
+            getAny('whatsapp/qr-code').then(result => {
+                const data = result.data;
+                const field = document.getElementById('whatsapp-info');
+                const close_whatsapp = document.getElementById('close_whatsapp');
 
-    // Crear un nuevo gráfico
-    const myChart = new Chart(ctx, {
-        type: 'bar', // Tipo de gráfico: bar, line, pie, etc.
-        data: {
-            labels: ['Rojo', 'Azul', 'Amarillo', 'Verde', 'Púrpura', 'Naranja'],
-            datasets: [{
-                label: '# de Votos',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(153, 102, 255, 0.5)',
-                    'rgba(255, 159, 64, 0.5)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+                close_whatsapp.addEventListener('click', () => {
+                    update({
+                        endpoint: "whatsapp/whatsapp-session",
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: {
+                            session: sessionStorage.getItem('sessionId')
+                        }
+                    });
+
+                    setTimeout(() => {
+                        checkWathsapp();
+                    }, 5000)
+                });
+
+                if (data.status !== 'fail') {
+                    field.querySelector('#whatsapp_img').innerHTML = '';
+                    field.querySelector('#whatsapp_img').innerHTML = data.img;
                 }
+                if (data.status === 'logged') {
+                    close_whatsapp.classList.remove('disable');
+                } else if (data.status === 'stand-by') {
+                    close_whatsapp.classList.add('disable');
+                    setTimeout(checkWathsapp, 5000); // Guardar el ID del intervalo
+                }
+
+            }).catch(error => {
+                console.error('Error al obtener datos:', error);
+            })
+        }
+    }
+
+    getStats().then(result => {
+        const dateCounts = result.data.views;
+        const socialCounts = {
+            "facebook": result.data.facebook,
+            "instagram": result.data.instagram,
+            "whatsapp": result.data.whatsapp,
+            "gmail": result.data.gmail,
+        }
+        const pagesCount = {
+            "servicios": result.data.servicios,
+            "testimonios": result.data.testimonios,
+            "nosotros": result.data.nosotros
+        }
+        const monthCounts = {
+            'enero': 0,
+            'febrero': 0,
+            'marzo': 0,
+            'abril': 0,
+            'mayo': 0,
+            'junio': 0,
+            'julio': 0,
+            'agosto': 0,
+            'septiembre': 0,
+            'octubre': 0,
+            'noviembre': 0,
+            'diciembre': 0
+        };
+        const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+        const currentYear = new Date().getFullYear();
+
+        function convertDateFormat(date) {
+            const [day, month, year] = date.split('/');
+            return `${month}/${day}/${year}`;
+        }
+
+        // Recorre cada fecha en los datos
+        for (const date in dateCounts) {
+            // Crea un objeto de fecha a partir de la cadena de fecha
+            const dateObj = new Date(convertDateFormat(date));
+
+            // Verifica si el año de la fecha es el año actual
+            if (dateObj.getFullYear() === currentYear) {
+                // Extrae el mes de la fecha (recuerda que los meses en JavaScript van de 0 a 11)
+                const month = dateObj.getMonth();
+
+                // Suma el conteo de visitas al mes correspondiente
+                monthCounts[monthNames[month]] += dateCounts[date];
             }
         }
+
+        // Ordena las fechas en orden descendente
+        const sortedDates = Object.keys(dateCounts);
+
+        // Toma solo los primeros diez elementos
+        const lastEightDates = sortedDates.slice(0, 8);
+        // Toma solo los primeros 12 mese
+
+        // Crea un nuevo objeto con las fechas y sus conteos correspondientes
+        const lastEightDateCounts = {};
+        for (const date of lastEightDates) {
+            lastEightDateCounts[date] = dateCounts[date];
+        }
+
+        const currentMonth = new Date().getMonth();
+        const passMonth = currentMonth - 1;
+
+        const html = `
+        <section class="container stats">                
+            <div id="grafics">
+                <span class="mid-table">
+                    <canvas id="DayGraf" width="400" height="200"></canvas>
+                </span>
+                <span class="mid-table">
+                    <canvas id="monthGraf" width="400" height="200"></canvas>
+                </span>
+                <span class="big-table">
+                    <canvas id="TowMonthGraf" width="400" height="200"></canvas>
+                </span>
+                <span class="mini-table">
+                    <canvas id="SocialGraf" width="400" height="200"></canvas>
+                </span>
+                <span class="mini-table">
+                    <canvas id="PagesGraf" width="400" height="200"></canvas>
+                </span>
+            </div>
+            <div id="whatsapp-info">
+                <div id="whatsapp_img"></div>
+                <div id="close_whatsapp"><h1>Cerrar Sesion</h1> </div>
+            </div>
+        </section>
+        `
+        htmlUpdate(html);
+
+        checkWathsapp();
+
+
+        // Obtener el contexto del canvas
+        const DayGraf = document.getElementById('DayGraf').getContext('2d');
+        const monthGraf = document.getElementById('monthGraf').getContext('2d');
+        const TowMonthGraf = document.getElementById('TowMonthGraf').getContext('2d');
+        const SocialGraf = document.getElementById('SocialGraf').getContext('2d');
+        const PagesGraf = document.getElementById('PagesGraf').getContext('2d');
+
+        // Crear un nuevo gráfico
+        const monthChart = new Chart(monthGraf, {
+            type: 'line', // Tipo de gráfico: bar, line, pie, etc.
+            data: {
+                labels: Object.keys(monthCounts),
+                datasets: [{
+                    label: 'visitas en el año',
+                    data: Object.values(monthCounts),
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+            }
+        });
+
+        // Crear un nuevo gráfico
+        const DayChart = new Chart(DayGraf, {
+            type: 'line', // Tipo de gráfico: bar, line, pie, etc.
+            data: {
+                labels: Object.keys(lastEightDateCounts),
+                datasets: [{
+                    label: 'visitas Ultimos Diez Dias',
+                    data: Object.values(lastEightDateCounts),
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+            }
+        });
+
+        // Crear un nuevo gráfico
+        const TowMonthChart = new Chart(TowMonthGraf, {
+            type: 'bar', // Tipo de gráfico: bar, line, pie, etc.
+            data: {
+                labels: [monthNames[passMonth], monthNames[currentMonth]], // Etiquetas para cada segmento del gráfico de pastel
+                datasets: [{
+                    label: 'Visitas de los últimos dos meses',
+                    data: [monthCounts[monthNames[passMonth]], monthCounts[monthNames[currentMonth]]], // Datos para cada segmento del gráfico de pastel
+                    backgroundColor: ['rgba(255, 99, 132)', 'rgba(54, 162, 235)'], // Colores de fondo para cada segmento
+                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'], // Colores de borde para cada segmento
+                    borderWidth: 1 // Ancho del borde para cada segmento
+                }]
+            },
+            options: {
+                responsive: true, // Asegura que el gráfico se redimensione correctamente en diferentes tamaños de pantalla
+                plugins: {
+                    legend: {
+                        position: 'top', // Posición de la leyenda
+                    },
+                    title: {
+                        display: false, // Muestra un título para el gráfico
+                        text: 'Visitas de los últimos dos meses' // Texto del título
+                    }
+                }
+            }
+        });
+
+        // Crear un nuevo gráfico
+        const SocialChart = new Chart(SocialGraf, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(socialCounts),
+                datasets: [{
+                    label: 'Social Media Counts',
+                    data: Object.values(socialCounts),
+                    backgroundColor: [
+                        'rgba(59, 89, 152, 0.6)', // Facebook color
+                        'rgba(225, 48, 108, 0.6)', // Instagram color
+                        'rgba(37, 211, 102, 0.6)', // WhatsApp color
+                        'rgba(219, 68, 55, 0.6)'   // Gmail color
+                    ],
+                    borderColor: [
+                        'rgba(59, 89, 152, 1)',
+                        'rgba(225, 48, 108, 1)',
+                        'rgba(37, 211, 102, 1)',
+                        'rgba(219, 68, 55, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw;
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Crear un nuevo gráfico
+        const PagesChart = new Chart(PagesGraf, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(pagesCount),
+                datasets: [{
+                    label: 'Social Media Counts',
+                    data: Object.values(pagesCount),
+                    backgroundColor: [
+                        'rgba(18,152,14, 0.6)',
+                        'rgba(70,130,180, 0.6)',
+                        'rgba(255,165,0, 0.6)',
+                    ],
+                    borderColor: [
+                        'rgba(18,152,14, 1)',
+                        'rgba(70,130,180, 1)',
+                        'rgba(255,165,0, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw;
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }).catch(error => {
+        console.error('Error al obtener datos:', error);
     });
 }
 
@@ -220,7 +481,7 @@ const indexForm = (longText, cards, backgrounds) => {
                             <option value="update-card">actualizar una
                                 carta</option>
                             <option value="create-card">crear una
-                                carta</option>
+                            carta</option>
                             <option value="delete-card">eliminar una
                                 carta</option>
                         </select>
@@ -234,7 +495,7 @@ const indexForm = (longText, cards, backgrounds) => {
                     </div>
 
                     <div class="buttons-horizontal-container">
-                        <button type="submit" id="update-button">Actualizar</button>
+                        <button class="" id="update-b" type="submit">Actualizar</button>
                         <button class="disable" id="create-button" type="submit">Crear</button>
                         <button class="disable" id="delete-button" type="submit">Eliminar</button>
                         <button type="reset">Resetear</button>
@@ -329,7 +590,7 @@ const indexForm = (longText, cards, backgrounds) => {
         }
     })
     document.querySelector('#card-action-select').addEventListener('change', function () {
-        const upB = document.querySelector('#update-button');
+        const upButton = document.querySelector('#update-b');
         const creB = document.querySelector('#create-button');
         const delB = document.querySelector('#delete-button');
 
@@ -340,7 +601,7 @@ const indexForm = (longText, cards, backgrounds) => {
 
         switch (this.value) {
             case 'update-card':
-                upB.classList.remove('disable');
+                upButton.classList.remove('disable');
                 creB.classList.add('disable');
                 delB.classList.add('disable');
                 cardSelect.classList.remove('disable');
@@ -352,7 +613,7 @@ const indexForm = (longText, cards, backgrounds) => {
 
                 break;
             case 'create-card':
-                upB.classList.add('disable');
+                upButton.classList.add('disable');
                 creB.classList.remove('disable');
                 delB.classList.add('disable');
                 cardSelect.classList.add('disable');
@@ -363,7 +624,7 @@ const indexForm = (longText, cards, backgrounds) => {
                 document.querySelector('#cards-text').value = "";
                 break;
             case 'delete-card':
-                upB.classList.add('disable');
+                upButton.classList.add('disable');
                 creB.classList.add('disable');
                 delB.classList.remove('disable');
                 cardSelect.classList.remove('disable');
@@ -389,8 +650,8 @@ const indexForm = (longText, cards, backgrounds) => {
         update_text('whyUs-text-update', 'longText.whyUs')
     })
 
-    document.querySelector('#update-button').addEventListener('click', (e) => {
-        // e.preventDefault();
+    document.getElementById('update-b').addEventListener('click', (e) => {
+        //e.preventDefault();
         // Obtener el elemento select
         const select = document.querySelector('#card-to-midify');
 
@@ -399,17 +660,18 @@ const indexForm = (longText, cards, backgrounds) => {
 
         // Obtener el texto de la opción seleccionada
         const selectedText = select.options[selectedIndex].text;
-        update_text_image(selectedText, document.querySelector('#cards-text'), document.querySelector('#card-Img'),);
+        update_text_image(selectedText, document.querySelector('#cards-text'), document.querySelector('#card-Img'));
     })
 
     document.querySelector('#create-button').addEventListener('click', (e) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         const selectedText = document.querySelector('#new-card-name').value;
         update_text_image(selectedText, document.querySelector('#cards-text'), document.querySelector('#card-Img'));
     })
 
     document.querySelector('#delete-button').addEventListener('click', (e) => {
+        //e.preventDefault();
         // Obtener el elemento select
         const select = document.querySelector('#card-to-midify');
 
@@ -1308,6 +1570,14 @@ const contactForm = (contact) => {
                 id="hours-text-update"
                 placeholder="Horario" value="${contact.Hours}"></input>
 
+                <input type="text" name="facebook-text"
+                id="facebook-text-update"
+                placeholder="Horario" value="${contact.Facebook}"></input>
+
+                <input type="text" name="instagram-text"
+                id="instagram-text-update"
+                placeholder="Horario" value="${contact.Instagram}"></input>
+
                 <div class="buttons-horizontal-container">
                     <button id="update-button" type="submit">Actualizar</button>
                     <button type="reset">Resetear</button>
@@ -1327,6 +1597,8 @@ const contactForm = (contact) => {
         const ph = document.getElementById('phone-text-update').value !== "" ? document.getElementById('phone-text-update').value : contact.Phone;
         const em = document.getElementById('email-text-update').value !== "" ? document.getElementById('email-text-update').value : contact.Email;
         const ho = document.getElementById('hours-text-update').value !== "" ? document.getElementById('hours-text-update').value : contact.Hours;
+        const fa = document.getElementById('hours-text-update').value !== "" ? document.getElementById('facebook-text-update').value : contact.Facebook;
+        const ins = document.getElementById('hours-text-update').value !== "" ? document.getElementById('instagram-text-update').value : contact.Instagram;
 
 
         const formData = new FormData();
@@ -1338,6 +1610,8 @@ const contactForm = (contact) => {
             "address": ad,
             "Phone": parseInt(ph),
             "Email": em,
+            "Facebook": fa,
+            "Instagram": ins,
             "Hours": ho
         }));
 
