@@ -1278,6 +1278,66 @@ form input[type="submit"]:hover {
     margin: auto;
 }
 
+#float-prices-modal {
+    width: 100vw;
+    height: 100vh;
+
+    position: fixed;
+    z-index: 200;
+
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    align-content: center;
+
+    background-color: #0000008c;
+}
+
+#float-prices-modal #exit {
+    width: 25px;
+    height: 25px;
+
+    position: relative;
+
+    top: 4%;
+    left: 87.5%;
+
+    z-index: 250;
+    padding: 4px 8px;
+
+    background-color: #ffffff;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    font-weight: bolder;
+
+    cursor: pointer;
+}
+
+#float-prices-modal #exit:hover {
+    background-color: #ffffff8a;
+    padding: 3px 7px;
+}
+
+.float-container {
+    width: 80vw;
+    height: 80vh;
+
+    position: relative;
+
+    margin: auto;
+
+    background-color: #8abfbf;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

@@ -89,6 +89,32 @@ const insertHeader = async (document) => {
             document.querySelector('#testimonios').addEventListener('click', () => {
                 updateStats('testimonios');
             });
+            document.querySelector('#AGENDAR-B').addEventListener('click', () => {
+                //cambiar esto por una funcion propia//
+                /*update({
+                    endpoint: "archivo/actualizar-stat",
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: {
+                        campo: campo,
+                    }
+                });*/
+            });
+            document.querySelector('#PRECIOS-B').addEventListener('click', () => {
+                //cambiar esto por una funcion propia//
+                /*update({
+                    endpoint: "archivo/actualizar-stat",
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: {
+                        campo: campo,
+                    }
+                });*/
+            });
 
         } else {
             const errorMessage = 'Error al cargar el archivo HTML: el título de la página no coincide con los datos estáticos';

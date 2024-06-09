@@ -45,7 +45,7 @@ const type = (elementId, text, typingSpeed, readTime, resetDelay) => {
 }
 
 setTimeout(() => {
-    type('welcome-text', document.querySelector("#welcome-text").textContent, 100, 5000, 1000);
+    type('welcome-text', document.querySelector("#welcome-text").textContent, 100, 50000, 1000);
 
     const cards = document.querySelectorAll(".explain-card ");
     cards.forEach(card => {
