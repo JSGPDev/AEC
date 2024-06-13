@@ -1,6 +1,5 @@
 const contactBubleFunction = () => {
-
-    console.log("contactBubleFunction")
+    bubbleAnim();
 
     const bub = document.getElementById('contact-buble-view');
     const opt = document.getElementById('buble-icons-container');
@@ -13,3 +12,14 @@ const contactBubleFunction = () => {
 document.querySelectorAll(".contact-button").forEach(button => {
     button.addEventListener("click", contactBubleFunction);
 });
+
+bubbleAnim = () => {
+    const view = document.getElementById('contact-buble-view').classList.contains('contact-buble-view-unhide');
+    if (!view) {
+        const bubble = document.getElementById('contact-buble');
+        bubble.classList.add('hide');
+        setTimeout(() => {
+            bubble.classList.remove('hide');
+        }, 350)
+    }
+}

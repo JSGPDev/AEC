@@ -1,4 +1,4 @@
-import { getData, update } from "./utils_api.js";
+import { getData, getAny, update } from "./utils_api.js";
 
 const pageTitlesToIds = {
     "AEC - Atencion En Casa - Pagina Principal": "inicio",
@@ -89,31 +89,19 @@ const insertHeader = async (document) => {
             document.querySelector('#testimonios').addEventListener('click', () => {
                 updateStats('testimonios');
             });
+
+
             document.querySelector('#AGENDAR-B').addEventListener('click', () => {
-                //cambiar esto por una funcion propia//
-                /*update({
-                    endpoint: "archivo/actualizar-stat",
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: {
-                        campo: campo,
-                    }
-                });*/
+                document.querySelector('#float-prices-modal').classList.remove('disable');
+                insertPricesForm('Agendar', data.data.services);
             });
             document.querySelector('#PRECIOS-B').addEventListener('click', () => {
-                //cambiar esto por una funcion propia//
-                /*update({
-                    endpoint: "archivo/actualizar-stat",
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: {
-                        campo: campo,
-                    }
-                });*/
+                document.querySelector('#float-prices-modal').classList.remove('disable');
+                insertPricesForm('Cotizar', data.data.services);
+            });
+
+            document.querySelector('#float-prices-modal #exit').addEventListener('click', () => {
+                document.querySelector('#float-prices-modal').classList.add('disable');
             });
 
         } else {
@@ -125,6 +113,123 @@ const insertHeader = async (document) => {
         console.error('Error al obtener datos:', error);
     }
 };
+
+const insertPricesForm = (type, services) => {
+    let servicesOptions = '';
+    for (let key in services) {
+        servicesOptions += `
+            <option value="${key}">${key}</option>
+            `;
+    }
+
+    const html = `
+        <form class="admin-form update-index-form"
+            id="cotizar-contratar-form"
+            style="border-radius: 25px; box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px; width: 90%; height: 90%;">
+            <label>${type} Servicio</label>
+            <div class="column-flow">
+
+                <input type="text" id="nombre" name="nombre"
+                    placeholder="Tu nombre" required>
+                <input type="email" id="email" name="email"
+                    placeholder="correo: email@ejemplo.com" required>
+                <input type="number" name="telefono" id="telefono"
+                    placeholder="numero de telefono">
+
+                <div class="row">
+
+                    <select name="serv" id="serv" required>
+                        <option value="">Selecciona un Servicio</option>
+                        ${type === 'Agendar' ? '' : '<option value="All">Precio Para Todos Los Servicios</option>'}
+                        ${servicesOptions}
+                    </select>
+
+                    <input type="number" name="cantidad" id="cantidad" class="mini-input disable"
+                        placeholder="cantidad" class="mini-input" required>
+
+                    <select name="funct" id="funct" class="disable" required>
+                        <option value=''>Selecciona una Funcion</option>
+                    </select>
+                </div>
+            </div>
+            <div class="buttons-horizontal-container">
+                <button type="submit">${type}</button>
+                <button type="reset">Resetear</button>
+            </div>
+        </form>
+    `
+
+    document.querySelector('#float-prices-modal .float-container').innerHTML = html;
+
+    document.querySelector('#serv').addEventListener('change', function () {
+        const cantidad = document.querySelector('#cantidad');
+        const funct = document.querySelector('#funct')
+        if (this.value === "" || this.value === 'All') {
+            cantidad.required = false;
+            funct.required = false;
+
+            cantidad.classList.add('disable');
+            funct.classList.add('disable');
+        } else {
+            cantidad.required = true;
+            funct.required = true;
+
+            cantidad.classList.remove('disable');
+            funct.classList.remove('disable');
+
+            console.log(services[this.value].functions);
+
+            let functOptions = "<option value=''>Selecciona una Funcion</option>";
+            for (let key in services[this.value].functions) {
+                functOptions += `
+                    <option value="${key}">${key}</option>
+                    `;
+            }
+            funct.innerHTML = '';
+            funct.innerHTML = functOptions;
+
+        }
+    })
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            document.querySelector('#float-prices-modal').classList.add('disable');
+        }
+    });
+    window.addEventListener('popstate', function (event) {
+        document.querySelector('#float-prices-modal').classList.add('disable');
+    });
+
+    document.querySelector('#cotizar-contratar-form').addEventListener('submit', (e) => {
+        const method = type === 'Agendar' ? 'GET' : 'POST';
+        const email = document.querySelector('#email').value;
+        const nombre = document.querySelector('#nombre').value;
+        const telefono = document.querySelector('#telefono').value || 'null';
+        const serv = document.querySelector('#serv').value;
+        const funct = document.querySelector('#funct').value;
+        const cantidad = document.querySelector('#cantidad').value;
+        const endpoint = type === 'Agendar' ? `prices/subscribe/${email}/${nombre}/${telefono}/${serv}/${funct}/${cantidad}` : `prices/${serv === 'All' ? 'all' : 'quote'}`;
+
+        const body = {
+            endpoint: endpoint,
+            method: method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: {
+                "email": email,
+                "nombre": nombre,
+                "telefono": String(telefono),
+                "serv": serv,
+                "funct": funct,
+                "cantidad": cantidad
+            }
+        };
+        console.log(body);
+        if (method !== 'GET') { update(body); } else { getAny(endpoint) }
+    });
+
+}
 
 const updateStats = (campo) => {
     update({

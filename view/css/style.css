@@ -988,7 +988,7 @@ input {
 }
 
 .card-title {
-    font-size: 100%;
+    font-size: 75%;
 }
 
 .autotext {
@@ -1292,34 +1292,25 @@ form input[type="submit"]:hover {
 
     align-content: center;
 
-    background-color: #0000008c;
+    background-color: #000000bc;
 }
 
 #float-prices-modal #exit {
     width: 25px;
     height: 25px;
-
-    position: relative;
-
-    top: 4%;
-    left: 87.5%;
-
     z-index: 250;
     padding: 4px 8px;
-
-    background-color: #ffffff;
-
+    display: block;
+    background-color: #ffffff7f;
     border-radius: 50%;
-
     overflow: hidden;
-
     font-weight: bolder;
-
+    margin: auto 5% 25px auto;
     cursor: pointer;
 }
 
 #float-prices-modal #exit:hover {
-    background-color: #ffffff8a;
+    background-color: #ffffff;
     padding: 3px 7px;
 }
 
@@ -1331,7 +1322,13 @@ form input[type="submit"]:hover {
 
     margin: auto;
 
+    display: flex;
+
+    align-items: center;
+
     background-color: #8abfbf;
+
+    box-shadow: rgb(0, 0, 0) 0px 0px 30px;
 
     border-radius: 15px;
 
@@ -1348,7 +1345,26 @@ form input[type="submit"]:hover {
     }
 }
 
-@media screen and (max-width : 350px) {
+@media screen and (max-width : 880px) {
+    .text-container {
+        font-size: 100%;
+        width: 80%;
+    }
+
+    .half-horizontal {
+        width: 80%;
+        min-width: 200px;
+        height: auto;
+        min-height: 300px;
+        margin: 1rem auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width : 430px) {
 
     .box-double {
         position: relative;
@@ -1373,7 +1389,7 @@ form input[type="submit"]:hover {
         min-width: 200px;
         height: auto;
         min-height: 300px;
-        margin: auto;
+        margin: 2rem auto;
         display: flex;
         flex-wrap: wrap;
         align-items: center;

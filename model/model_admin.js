@@ -407,7 +407,6 @@ const indexForm = (longText, cards, backgrounds) => {
                         <button type="reset">Resetear</button>
                     </div>
                 </div>
-
             </form>
 
             <form class="admin-form update-index-form"
