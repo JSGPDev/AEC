@@ -1,4 +1,5 @@
 import { getAdmin, insertform } from "../model/model_admin.js";
+import { api_host } from "../utils/utils_api.js";
 
 export default class AdminController {
 
@@ -58,7 +59,7 @@ export default class AdminController {
             window.location.href = "/view/login.html";
         }
 
-        const response = await fetch(`http://localhost:8080/session/islogged/${sessionId}`);
+        const response = await fetch(`${api_host}/session/islogged/${sessionId}`);
         if (response.ok) {
             const data = await response.json();
             if (!isLoggedIn || !data.logged) {

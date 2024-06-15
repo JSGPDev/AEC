@@ -12,7 +12,7 @@ footer {
 
     background-color: var(--color-secundario);
 
-    border-top-right-radius: 100%;
+    border-top-right-radius: 50%;
 }
 
 footer .footer-container {
@@ -48,7 +48,7 @@ footer .footer-container #footer-copy {
 }
 
 footer .footer-container #footer-options {
-    width: 30%;
+    width: 55%;
     min-height: 75px;
     height: auto;
     margin: auto auto auto -40px;

@@ -1,4 +1,4 @@
-const api_host = 'http://localhost:8080';
+const api_host = 'https://apiaec-production.up.railway.app';
 
 const readData = (url) => {
     return new Promise((resolve, reject) => {
@@ -95,7 +95,7 @@ const login = (form) => {
             const user = formData.get('user');
             const password = formData.get('password');
 
-            const response = await fetch("http://localhost:8080/session/log-in", {
+            const response = await fetch(api_host + "/session/log-in", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -116,7 +116,7 @@ const update = (cuerpo) => {
     sessionStorage.removeItem('tempData');
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch("http://localhost:8080/" + cuerpo.endpoint, {
+            const response = await fetch(api_host + "/" + cuerpo.endpoint, {
                 method: cuerpo.method,
                 headers: cuerpo.headers,
                 body: JSON.stringify(cuerpo.body)
@@ -148,7 +148,7 @@ const update = (cuerpo) => {
 const updateFormData = (endpoint, formData) => {
     sessionStorage.removeItem('tempData');
 
-    fetch(`http://localhost:8080/${endpoint}`, {
+    fetch(`${api_host}/${endpoint}`, {
         method: "POST",
         body: formData
     })
@@ -164,4 +164,4 @@ const updateFormData = (endpoint, formData) => {
         });
 }
 
-export { getData, getStats, getAny, login, update, updateFormData }
+export { getData, getStats, getAny, login, update, updateFormData, api_host }

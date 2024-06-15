@@ -1,4 +1,5 @@
 import { getLogin } from "/model/model_login.js";
+import { api_host } from "../utils/utils_api.js";
 
 export default class LoginController {
 
@@ -12,7 +13,7 @@ export default class LoginController {
         const isLoggedIn = sessionStorage.getItem("logged");
         if (isLoggedIn) {
             const sessionId = sessionStorage.getItem("sessionId"); // aquí debes obtener el sessionId de alguna manera
-            const response = await fetch(`http://localhost:8080/session/islogged/${sessionId}`);
+            const response = await fetch(`${api_host}/session/islogged/${sessionId}`);
             if (response.ok) {
                 const data = await response.json();
                 const backLoggedIn = data.logged;
