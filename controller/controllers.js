@@ -1,9 +1,9 @@
-import IndexController from "./controller_index.js";
-import ServicesController from "./controller_services.js";
-import UsController from "./controller_us.js"
-import TestimoniesController from "./controller_testimonies.js"
-import LoginController from "./controller_login.js";
-import AdminController from "./Controller_admin.js";
+import IndexController from "/controller/controller_index.js";
+import ServicesController from "/controller/controller_services.js";
+import UsController from "/controller/controller_us.js"
+import TestimoniesController from "/controller/controller_testimonies.js"
+import LoginController from "/controller/controller_login.js";
+import AdminController from "/controller/Controller_admin.js";
 // Importa otros controladores según sea necesario
 
 export const controllers = {

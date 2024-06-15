@@ -1,5 +1,5 @@
-import { getAdmin, insertform } from "../model/model_admin.js";
-import { api_host } from "../utils/utils_api.js";
+import { getAdmin, insertform } from "/model/model_admin.js";
+import { api_host } from "/utils/utils_api.js";
 
 export default class AdminController {
 

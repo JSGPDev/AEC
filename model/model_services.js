@@ -1,9 +1,9 @@
 import { getData } from "/utils/utils_api.js";
 
 import { insertHeader, insertPricesForm } from "/utils/utils_header.js";
-import { insertFooter } from "../utils/utils_footer.js";
+import { insertFooter } from "/utils/utils_footer.js";
 
-import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
+import { changeBackgroundUrl } from "/utils/changeBackgroundUrl.js";
 
 
 const getServices = (document) => {

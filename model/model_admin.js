@@ -1,5 +1,5 @@
-import { getData, getStats, getAny, update, updateFormData } from "../utils/utils_api.js";
-import { convertirMarkdownAHTML } from "../utils/text_handler.js";
+import { getData, getStats, getAny, update, updateFormData } from "/utils/utils_api.js";
+import { convertirMarkdownAHTML } from "/utils/text_handler.js";
 let forms = {}
 
 const getAdmin = (document) => {

@@ -1,5 +1,5 @@
 import { getLogin } from "/model/model_login.js";
-import { api_host } from "../utils/utils_api.js";
+import { api_host } from "/utils/utils_api.js";
 
 export default class LoginController {
 

@@ -1,4 +1,4 @@
-import { getUs } from "../model/model_us.js";
+import { getUs } from "/model/model_us.js";
 
 export default class UsController {
     constructor(document) {

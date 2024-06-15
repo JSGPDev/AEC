@@ -1,6 +1,6 @@
-import { getData } from "../utils/utils_api.js";
-import { insertHeader } from "../utils/utils_header.js";
-import { insertFooter } from "../utils/utils_footer.js";
+import { getData } from "/utils/utils_api.js";
+import { insertHeader } from "/utils/utils_header.js";
+import { insertFooter } from "/utils/utils_footer.js";
 
 
 import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";

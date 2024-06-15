@@ -2,7 +2,7 @@ import { pageTitlesToIds, changeLocation } from "/utils/utils_header.js";
 
 import { controllers } from "/controller/controllers.js";
 
-import { update } from "./utils/utils_api.js";
+import { update } from "/utils/utils_api.js";
 
 const curDocument = pageTitlesToIds[pageTitlesToIds[document.title]];
 

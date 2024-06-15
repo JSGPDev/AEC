@@ -1,4 +1,4 @@
-import { getData, getAny, update } from "./utils_api.js";
+import { getData, getAny, update } from "/utils/utils_api.js";
 
 const pageTitlesToIds = {
     "AEC - Atencion En Casa - Pagina Principal": "inicio",

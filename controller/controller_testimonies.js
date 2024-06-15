@@ -1,4 +1,4 @@
-import { getTestimonies } from "../model/model_testimonies.js";
+import { getTestimonies } from "/model/model_testimonies.js";
 
 export default class UsController {
     constructor(document) {
