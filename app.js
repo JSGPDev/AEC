@@ -37,7 +37,6 @@ window.addEventListener("hashchange", () => {
 
 const updateStats = (campo) => {
     if (sessionStorage.getItem("first-view") !== "false") {
-        alert("views actualizado");
         sessionStorage.setItem("first-view", "false");
         update({
             endpoint: "archivo/actualizar-stat",

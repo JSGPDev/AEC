@@ -1,11 +1,14 @@
 import { getData } from "/utils/utils_api.js";
 
-import { insertHeader } from "/utils/utils_header.js";
+import { insertHeader, insertPricesForm } from "/utils/utils_header.js";
+import { insertFooter } from "../utils/utils_footer.js";
+
 import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
 
 
 const getServices = (document) => {
     insertHeader(document);
+    insertFooter();
 }
 
 const constructServices = () => {
@@ -75,7 +78,6 @@ const constructServices = () => {
                 }
                 html += `</div></div>`;
 
-                console.log(html);
                 return html;
 
                 changeBackgroundUrl(data.data.backgrounds, 'bg002');
@@ -144,6 +146,40 @@ const constructExplainServFuncionHTML = (funtionId) => {
                     document.querySelector("#Button-Serv-Function").classList.add("disable");
                 else {
                     document.querySelector("#Button-Serv-Function").classList.remove("disable");
+                }
+                document.getElementById('cotizar-button').addEventListener('click', () => {
+                    servfunction('Cotizar');
+                });
+                document.getElementById('contratar-button').addEventListener('click', () => {
+                    servfunction('Agendar');
+                });
+
+                const servfunction = (accion) => {
+                    insertPricesForm(accion, data.data.services);
+                    const serv = document.querySelector('#serv');
+                    const funct = document.querySelector('#funct');
+                    const cantidad = document.querySelector('#cantidad');
+
+                    serv.value = service[0];
+
+                    // Crear un nuevo evento 'change'
+                    var event = new Event('change', {
+                        bubbles: true,
+                        cancelable: true,
+                    });
+
+                    // Despachar el evento 'change'
+                    serv.dispatchEvent(event);
+
+                    funct.value = functionName;
+
+                    serv.disabled = true;
+                    funct.disabled = true;
+
+                    funct.classList.remove('disable');
+                    cantidad.classList.remove('disable');
+
+                    document.getElementById('float-prices-modal').classList.remove('disable');
                 }
             }
         })

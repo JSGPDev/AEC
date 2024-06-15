@@ -1,5 +1,7 @@
 import { getData } from "../utils/utils_api.js";
 import { insertHeader } from "../utils/utils_header.js";
+import { insertFooter } from "../utils/utils_footer.js";
+
 import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
 
 const getTestimonies = (document) => {
@@ -21,6 +23,8 @@ const getTestimonies = (document) => {
                 });
             });
             changeBackgroundUrl(data.data.backgrounds, 'bg004');
+            insertFooter();
+
         })
         .catch(error => {
             console.error('Error al obtener datos:', error);

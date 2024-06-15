@@ -1,4 +1,5 @@
 import { insertHeader } from "/utils/utils_header.js";
+import { insertFooter } from "../utils/utils_footer.js";
 import { getData } from "/utils/utils_api.js";
 import { changeBackgroundUrl } from "../utils/changeBackgroundUrl.js";
 
@@ -62,6 +63,8 @@ const getIndex = (document) => {
                 console.error(data.message);
                 document.querySelector("#welcome-text").textContent = data.message;
             }
+            insertFooter();
+
         })
         .catch(error => {
             console.error('Error al obtener datos:', error);

@@ -102,6 +102,8 @@ const insertHeader = async (document) => {
 
             document.querySelector('#float-prices-modal #exit').addEventListener('click', () => {
                 document.querySelector('#float-prices-modal').classList.add('disable');
+                document.querySelector('#serv').disabled = false;
+                document.querySelector('#funct').disabled = false;
             });
 
         } else {
@@ -177,8 +179,6 @@ const insertPricesForm = (type, services) => {
             cantidad.classList.remove('disable');
             funct.classList.remove('disable');
 
-            console.log(services[this.value].functions);
-
             let functOptions = "<option value=''>Selecciona una Funcion</option>";
             for (let key in services[this.value].functions) {
                 functOptions += `
@@ -194,10 +194,14 @@ const insertPricesForm = (type, services) => {
     document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') {
             document.querySelector('#float-prices-modal').classList.add('disable');
+            document.querySelector('#serv').disabled = false;
+            document.querySelector('#funct').disabled = false;
         }
     });
     window.addEventListener('popstate', function (event) {
         document.querySelector('#float-prices-modal').classList.add('disable');
+        document.querySelector('#serv').disabled = false;
+        document.querySelector('#funct').disabled = false;
     });
 
     document.querySelector('#cotizar-contratar-form').addEventListener('submit', (e) => {
@@ -248,4 +252,4 @@ const changeLocation = (url) => {
     window.location.href = url;
 }
 
-export { pageTitlesToIds, insertHeader, changeLocation }
+export { pageTitlesToIds, insertHeader, changeLocation, insertPricesForm }

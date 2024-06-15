@@ -10,6 +10,8 @@ const getAdmin = (document) => {
 
         forms.servicesForm = () => servicesForm(data.data.services, data.data.backgrounds);
 
+        forms.pricesForm = () => pricesForm(data.data.services);
+
         forms.usForm = () => usForm(data.data.longText, data.data.backgrounds);
 
         forms.testimoniesForm = () => testimoniesForm(data.data.testimonies, data.data.services, data.data.backgrounds);
@@ -348,6 +350,105 @@ const stats = async () => {
     }).catch(error => {
         console.error('Error al obtener datos:', error);
     });
+}
+
+const pricesForm = async (services) => {
+    let servicesOptions = '';
+    for (let key in services) {
+        servicesOptions += `
+            <option value="${key}">${key}</option>
+            `;
+    }
+    getAny('archivo/ver-contenido/prices').then(result => {
+        const html = `
+            <form class="admin-form update-index-form"
+                id="prices-update">
+                <label>Precios</label>
+                <div id="servInfo" class="row disable">
+                    <div style="display:flex; flex-direction:column; padding:0 5px; width:33%;">
+                        <img id="prev-img" src="/view/img/enfermera.png" alt="Haz clic para subir una imagen">
+                    </div>
+                    <div id="services-prices" class="sixth-column">
+
+                    </div>
+                </div>
+                    <select name="service-to-modify"
+                        id="service-to-modify">
+                        <option value="null">selecciona un
+                            Servicio</option>
+                        ${servicesOptions}
+                    </select>
+                </div>
+
+                <div class="buttons-horizontal-container">
+                    <button type="submit">Actualizar</button>
+                    <button type="reset">Resetear</button>
+                </div>
+            </form>
+        `;
+
+        htmlUpdate(html);
+
+        document.getElementById('service-to-modify').addEventListener('change', function () {
+            document.getElementById('servInfo').classList.replace(this.value === 'null' ? 's' : 'disable', this.value === 'null' ? 'disable' : 's')
+            if (this.value !== 'null') {
+                let servFuntionPrices = '';
+                for (let key in services[this.value].functions) {
+                    servFuntionPrices += `
+                    <div class="row functionPriceContainer">
+                        <div class="row" style="width: 66%">
+                            <strong style="width:70%">${key}</strong>
+                            <input class="mini-input functionTipe" type="text"
+                                placeholder="${result.data[this.value][key].type}"
+                                maxlength="30"
+                                value="${result.data[this.value][key].type}">
+                        </div>
+                        <input class="mini-input functionPrice" type="text"
+                            placeholder="${result.data[this.value][key]}"
+                            maxlength="30"
+                            value="${result.data[this.value][key].price}">
+                    </div>
+                `;
+                }
+                const newHTMLTarget = document.getElementById('services-prices');
+                document.getElementById('prev-img').src = services[this.value].img;
+                newHTMLTarget.innerHTML = servFuntionPrices;
+            }
+        });
+
+        document.getElementById('prices-update').addEventListener('submit', (e) => {
+            const serv = document.getElementById('service-to-modify').value;
+            const servjson = {}
+            document.querySelectorAll('.functionPriceContainer').forEach(element => {
+                const func = element.querySelector('strong').textContent;
+                servjson[func] = {
+                    "type": String(element.querySelector('.functionTipe').value),
+                    "price": parseInt(element.querySelector('.functionPrice').value)
+                }
+            })
+
+            update_prices(serv, servjson);
+
+        });
+    }).catch(error => {
+        console.error('Error al obtener datos:', error);
+    });
+
+    const update_prices = (serviceName, functionsField) => {
+        if (!serviceName || !functionsField) {
+            console.error('Faltan campos obligatorios.');
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("session", `${sessionStorage.sessionId}`);
+        formData.append("nombreArchivo", "prices");
+        formData.append("campo", serviceName);
+        formData.append("valor", JSON.stringify(functionsField));
+
+        updateFormData('archivo/modificar-card-imagen', formData);
+    };
 }
 
 const insertform = (document, form) => {
@@ -807,7 +908,7 @@ const servicesForm = (services, backgrounds) => {
                             Servicio</option>
                     </select>
 
-                    <select class='' name="service-to-modify"
+                    <select name="service-to-modify"
                         id="service-to-modify">
                         <option value="null">selecciona un
                             Servicio</option>
@@ -959,7 +1060,7 @@ const servicesForm = (services, backgrounds) => {
         docFunc.forEach(element => {
             const title = element.querySelector('.service-info-title').value;
             const text = element.querySelector('.service-info-text').value;
-            functions[title] = text;
+            functions[title] = convertirMarkdownAHTML(text);
         });
 
         console.log('servicio: \n' + Nservicio);
@@ -977,7 +1078,7 @@ const servicesForm = (services, backgrounds) => {
         docFunc.forEach(element => {
             const title = element.querySelector('.service-info-title').value;
             const text = element.querySelector('.service-info-text').value;
-            functions[title] = text;
+            functions[title] = convertirMarkdownAHTML(text);
         });
 
         console.log('servicio: \n' + Nservicio);
