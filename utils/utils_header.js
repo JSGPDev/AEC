@@ -156,7 +156,6 @@ const insertPricesForm = (type, services) => {
             </div>
             <div class="buttons-horizontal-container">
                 <button type="submit">${type}</button>
-                <button type="reset">Resetear</button>
             </div>
         </form>
     `
