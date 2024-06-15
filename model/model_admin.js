@@ -1672,11 +1672,11 @@ const contactForm = (contact) => {
 
                 <input type="text" name="facebook-text"
                 id="facebook-text-update"
-                placeholder="Horario" value="${contact.Facebook}"></input>
+                placeholder="Facebook" value="${contact.Facebook}"></input>
 
                 <input type="text" name="instagram-text"
                 id="instagram-text-update"
-                placeholder="Horario" value="${contact.Instagram}"></input>
+                placeholder="Instagra" value="${contact.Instagram}"></input>
 
                 <div class="buttons-horizontal-container">
                     <button id="update-button" type="submit">Actualizar</button>

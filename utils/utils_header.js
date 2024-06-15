@@ -205,6 +205,7 @@ const insertPricesForm = (type, services) => {
     });
 
     document.querySelector('#cotizar-contratar-form').addEventListener('submit', (e) => {
+        e.preventDefault();
         const method = type === 'Agendar' ? 'GET' : 'POST';
         const email = document.querySelector('#email').value;
         const nombre = document.querySelector('#nombre').value;
@@ -231,6 +232,7 @@ const insertPricesForm = (type, services) => {
         };
         console.log(body);
         if (method !== 'GET') { update(body); } else { getAny(endpoint) }
+        alert('¡GENIAL!\nRevisa tu correo, ahi encontraras Nuestra respuesta');
     });
 
 }
