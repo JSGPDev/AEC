@@ -111,6 +111,12 @@ const insertHeader = async (document) => {
             console.error(errorMessage);
             document.querySelector('body').insertAdjacentHTML('afterbegin', errorMessage);
         }
+
+        SetResponsive();
+        window.addEventListener('resize', () => {
+            checkScreenResponsive();
+        })
+
     } catch (error) {
         console.error('Error al obtener datos:', error);
     }
@@ -251,6 +257,56 @@ const updateStats = (campo) => {
 
 const changeLocation = (url) => {
     window.location.href = url;
+}
+
+const checkScreenResponsive = () => {
+    // Definir la media query
+    const mediaQuery = window.matchMedia('(max-width: 635px)');
+
+    const headerOptions = document.getElementById('header-options');
+    const menuHamburguesa = document.querySelector('.menu-hamburguesa');
+
+    // Comprobar el estado de la media query
+    if (mediaQuery.matches) {
+        headerOptions.style.display = 'none';
+        menuHamburguesa.classList.remove('disable');
+    } else {
+        headerOptions.style.display = 'flex';
+        menuHamburguesa.classList.add('disable');
+    }
+}
+
+const SetResponsive = () => {
+    checkScreenResponsive();
+    const menuHamburguesa = document.querySelector('.menu-hamburguesa');
+    const headerOptions = document.getElementById('header-options');
+    menuHamburguesa.addEventListener('click', () => {
+        if (document.querySelectorAll('.fullscreenModal').length <= 0) {
+            document.querySelector('body').insertAdjacentHTML('afterbegin', `
+            <div class="fullscreenModal">
+                <span id="fullscreenModalExit">X</span>
+                <ul>
+                    ${headerOptions.innerHTML}
+                </ul>
+            </div>
+            `)
+            document.querySelectorAll(".linkTo").forEach(element => {
+                element.addEventListener("click", () => {
+                    let url = element.id === "inicio" ? "/index.html" : `/view/${pageTitlesToIds[element.id]}`
+                    window.location.hash = url;
+                });
+            });
+            document.getElementById('fullscreenModalExit').addEventListener('click', () => {
+                document.querySelector('.fullscreenModal').remove();
+            });
+            document.addEventListener('keydown', function (event) {
+                document.querySelector('.fullscreenModal').remove();
+            });
+            window.addEventListener('popstate', function (event) {
+                document.querySelector('.fullscreenModal').remove();
+            });
+        }
+    })
 }
 
 export { pageTitlesToIds, insertHeader, changeLocation, insertPricesForm }
