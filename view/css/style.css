@@ -10,6 +10,8 @@ footer {
     height: auto;
     min-height: 75px;
 
+    margin-top: 5rem;
+
     background-color: var(--color-secundario);
 
     border-top-right-radius: 50%;
@@ -172,6 +174,7 @@ body {
 
 iframe {
     margin: 50px auto;
+
     border-radius: 20px;
     box-shadow: 0px 0px 10px black;
 }
@@ -359,7 +362,7 @@ header {
     width: 35px;
     height: 30px;
     display: flex;
-    margin-right: 5px;
+    margin-right: 15px;
     margin-left: auto;
     flex-direction: column;
     justify-content: space-between;
@@ -709,8 +712,15 @@ header {
 
 .window-size {
     width: 95vw;
-    min-height: 95vh;
-    height: auto;
+    height: 95vh;
+}
+
+@media screen and (max-width:773px) {
+    .window-size {
+        width: 95vw;
+        min-height: 95vh;
+        height: auto;
+    }
 }
 
 .background-colored-secundary {
